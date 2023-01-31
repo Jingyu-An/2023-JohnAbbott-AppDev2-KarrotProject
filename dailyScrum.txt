@@ -1,0 +1,89 @@
+Format to follow:
+In your shared Git repository create file "dailyscrum.txt".
+Both members of the team will write to this one file every morning at 9am.
+
+Each member writes down answers to 3 questions in the following format:
+
+<< current date goes here >>
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+Example entries for one day, both team members:
+
+2018/02/28 Gregory
+1. Done / not done since last scrum:
+- created project plan
+- created database mockup
+- did not write the description yet
+2. To do until next Scrum:
+- finish the description
+- setup the initial project
+- create the custom dialog for user login
+- setup the database
+3. Need assistance / figure things out
+- find and test a library for PDF printouts
+- find out how to fetch data from URL and parse JSON
+
+2018/02/28 Jerry
+1. Done since last scrum
+- lkjsadf
+- asldkfj
+2. Plan until next Scrum
+- lkjasdf
+- asfdasfd
+3. Need assistance / figure things out
+- laksdjfl
+======================================================================================================================================================================
+Tuesday, January 17, 2023:
+Daily Srum Meeting:
+
+1. Team leader. Create project Git repository, shared by all team members and senditaway@hotmail.com.
+Keep the repository PRIVATE.
+You MUST add the proper content of .gitignore file *before* creating a project in it:
+For VisualStudio: https://raw.githubusercontent.com/github/gitignore/master/VisualStudio.gitignore
+
+DO NOT USE BRANCHES functionality in Git.
+
+2. Watch "Scrum in 10 minutes" video https://www.youtube.com/watch?v=XU0llRltyFM
+
+3. In Git project working copy create "dailyscrum.txt" file that will be shared by both team members.
+Do your first Daily Scrum right here right now planning on what each of you will do by tomorrow morning.
+
+Make sure to follow Daily Scrum example and instructions provided.
+Make sure to commit that file to repository every day starting today.
+
+4. Setup repo and upload base files for project.
+5. Setup trello in format professor wants.
+
+All steps completed.
+
+======================================================================================================================================================================
+
+Wednesday, January 18, 2023:
+Daily Srum Meeting:
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+Patrick:
+1. 
+2. Plan until next scrum:
+	- Setup UI
+	
+3. 
+
+Jingyu
+1.
+2. Plan until next scrum:
+	- Setup database and Azure Server
+3.
+
+Hyunju
+1.
+2. Plan until next scrum:
+	- Messaging library research
+3.
+
+
+======================================================================================================================================================================
