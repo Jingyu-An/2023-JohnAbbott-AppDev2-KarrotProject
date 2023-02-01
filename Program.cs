@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
-// var connectionString = builder.Configuration.GetConnectionString("KarrotDbContextConnection") ?? throw new InvalidOperationException("Connection string 'KarrotDbContextConnection' not found.");
+    
+//var config = builder.Configuration; //For external provider authentication
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -22,11 +23,38 @@ builder.Services.AddSession();
 builder.Services.AddDefaultIdentity<IdentityUser>(opt =>
 {
     opt.SignIn.RequireConfirmedAccount = false;
+    opt.SignIn.RequireConfirmedPhoneNumber = false;
+    
     opt.Password.RequireDigit = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequiredLength = 4;
+    
+    // Lockout settings.
+    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    opt.Lockout.MaxFailedAccessAttempts = 5;
+    opt.Lockout.AllowedForNewUsers = true;
+    
+    // User settings.
+    opt.User.AllowedUserNameCharacters =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+    opt.User.RequireUniqueEmail = false;
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<KarrotDbContext>()
 .AddDefaultTokenProviders();
+
+
+// TODO: For Google provider authentication
+// builder.Services.AddAuthentication()
+//     .AddGoogle(options =>
+//     {
+//         IConfigurationSection googleAuthNSection =
+//             config.GetSection("Authentication:Google");
+//         options.ClientId = googleAuthNSection["ClientId"];
+//         options.ClientSecret = googleAuthNSection["ClientSecret"];
+//     });
 
 var app = builder.Build();
 
@@ -59,6 +87,20 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+using (var scope = app.Services.CreateScope()) {
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<KarrotDbContext>();    
+
+    context.Database.Migrate();
+
+    var userMgr = services.GetRequiredService<UserManager<IdentityUser>>();  
+    var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();  
+
+    IdentitySeedData.Initialize(context, userMgr, roleMgr).Wait();
+}
+
 app.MapHub<ChatHub>("chatHub");
 
 app.Run();
