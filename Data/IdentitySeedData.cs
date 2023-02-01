@@ -4,11 +4,10 @@ namespace Karrot.Data;
 
 public class IdentitySeedData
 {
-    public static async Task Initialize(KarrotDbContext context,
-        UserManager<IdentityUser> userManager,
+    public static async Task Initialize(UserManager<IdentityUser> userManager,
         RoleManager<IdentityRole> roleManager)
     {
-        context.Database.EnsureCreated();
+        //context.Database.EnsureCreated();
 
         string adminRole = "Admin";
         string userRole = "User";

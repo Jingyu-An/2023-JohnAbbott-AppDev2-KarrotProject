@@ -75,8 +75,14 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<KarrotDbContext>();
-    context.Database.EnsureCreated();
+    // var context = services.GetRequiredService<KarrotDbContext>();
+    // context.Database.Migrate();
+    // context.Database.EnsureCreated();
+
+    var userMgr = services.GetRequiredService<UserManager<IdentityUser>>();  
+    var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();  
+
+    IdentitySeedData.Initialize(userMgr, roleMgr).Wait();
 }
 
 app.UseHttpsRedirection();
@@ -87,19 +93,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-
-using (var scope = app.Services.CreateScope()) {
-    var services = scope.ServiceProvider;
-
-    var context = services.GetRequiredService<KarrotDbContext>();    
-
-    context.Database.Migrate();
-
-    var userMgr = services.GetRequiredService<UserManager<IdentityUser>>();  
-    var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();  
-
-    IdentitySeedData.Initialize(context, userMgr, roleMgr).Wait();
-}
 
 app.MapHub<ChatHub>("chatHub");
 
