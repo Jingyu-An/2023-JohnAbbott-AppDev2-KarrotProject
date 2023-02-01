@@ -1,6 +1,8 @@
 using Karrot.Data;
+using Karrot.Hub;
 using Karrot.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -10,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
 builder.Services.AddDbContext<KarrotDbContext>();
 builder.Services.AddSession();
 
@@ -40,5 +43,9 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapHub<ChatHub>("chatHub");
 
 app.Run();
+
+
+
