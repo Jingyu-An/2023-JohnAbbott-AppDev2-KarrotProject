@@ -11,13 +11,10 @@ namespace Karrot.Data
 {
     public class KarrotDbContext : IdentityDbContext
     {
-                public KarrotDbContext(DbContextOptions<KarrotDbContext> options) : base(options) { }
-        public DbSet<Product> Products { get; set; }
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public KarrotDbContext(DbContextOptions<KarrotDbContext> options) : base(options)
         {
-            optionsBuilder.UseSqlite(@"Data source=Karrot.db");
         }
+
+        public DbSet<Product> Products { get; set; }
     }
 }
