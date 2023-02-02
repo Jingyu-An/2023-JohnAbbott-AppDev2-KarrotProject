@@ -10,14 +10,24 @@ namespace Karrot.Models
     {
         [Key]
         public int Id { get; set; }
+        
         [Required]
-        public string Description { get; set; }
+        [Display(Name = "Description")]
+        public string ProductDescription { get; set; }
+        
         [Required]
-        public string Title { get; set; }
+        [Display(Name = "Name")]
+        public string ProductName { get; set; }
+        
         [Required]
-        public int Price { get; set; }
+        [Display(Name = "Price")]
+        public double ProductPrice { get; set; }
+        
         [Required]
         public string Image { get; set; }
+        
+        public int CategoryID { get; set; }
+        
         public DateTime CreateAt { get; set; }
     }
 }
