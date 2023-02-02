@@ -5,51 +5,73 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
 <html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <script defer src="js/main.js"></script>
+</head>
+<body>
+<div class="body__container">
+
+    <section class="section section--where-is">
+        <div class="inner">
+
+            <div class="summary">
+                <h2 class="summary__title">Where is your location?</h2>
+                <p class="summary__description">find location.</p>
+                <input id="address" type="textbox" value="Montreal">
+                <input type="button" value="Search" onclick="codeAddress()">
+            </div>
+
+            <div id="map"></div>
+
+        </div>
+    </section>
 
 
-<h1>Google Map</h1>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDlTTZE5aXBMoiYy-dRX5C5qgzyMCPoGA&callback=myMap"></script>
-<script>  
-        var mapcode;  
-        var diag;  
-        function initialize() {  
-            mapcode = new google.maps.Geocoder();   
-            var lnt = new google.maps.LatLng(26.45, 82.85);  
-            var diagChoice = {  
-                zoom: 9,  
-                center: lnt,   
-                diagId: google.maps.MapTypeId.ROADMAP   
-}   
-           diag = new google.maps.Map(document.getElementById('map-canvas'), diagChoice);   
+</div>
+<script>
+  // Initialize Google Map.
+  var map;:queueMicrotask()
+  var mapcode;
+  function initMap() {
+    
+    mapcode = new google.maps.Geocoder();
+    var lnt = new google.maps.LatLng(37.782293, -122.391240);
+    var diagChoice = {
+                    zoom: 9,
+                    center: lnt,
+                    diagId: google.maps.MapTypeId.ROADMAP
+    }
+
+    
+    map = new google.maps.Map(document.getElementById('map'), diagChoice);
+
+    const marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: 'GitHub'
+    })
+    
+  }
   
-        }  
- function codeAddress() {  
-            var add = document.getElementById('address').value;  
-            mapcode.geocode({ 'address': add }, function (results, status) {  
-                if (status == google.maps.GeocoderStatus.OK) {   
-                    diag.setCenter(results[0].geometry.location);   
-                    var hint = new google.maps.Marker({   
-                        diag: diag,  
-                        position: results[0].geometry.location  
-                    });  
-                } else {  
-                    alert('This code is not successful ' + status);  
-                }  
-            });  
-        }  
-  
-        google.maps.event.addDomListener(window, 'load', initialize);   
-  
-    </script>  
-  
-    <body>  
-        <div id="panel">  
-            <input id="address" type="textbox" value="Montreal">  
-            <input type="button" value="Search" onclick="codeAddress()">  
-        </div>  
-        <div id="map-canvas" style="width: 600px; height: 390px; border: 5px solid #5E5454;">  
-        </div>  
-    </body>  
-    </html> 
+    function codeAddress() {
+               var add = document.getElementById('address').value;
+               mapcode.geocode({ 'address': add }, function (results, status) {
+                   if (status == google.maps.GeocoderStatus.OK) {
+                       map.setCenter(results[0].geometry.location);
+                       var hint = new google.maps.Marker({
+                           map: map,
+                           position: results[0].geometry.location
+                       });
+                   } else {
+                       alert('This code is not successful ' + status);
+                   }
+               });
+           }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDlTTZE5aXBMoiYy-dRX5C5qgzyMCPoGA&callback=initMap" async defer></script>
+</body>
+</html>
