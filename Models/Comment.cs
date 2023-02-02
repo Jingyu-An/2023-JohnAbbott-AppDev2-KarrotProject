@@ -1,10 +1,14 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace Karrot.Models;
 
 public class Comment
 {
     public string CommentId { get; set; }
 
-    public string UserId { get; set; }
+    public IdentityUser CommentUser { get; set; }
+    
+    public Product CommentProduct { get; set; }
     
     public string CommentBody { get; set; }
     

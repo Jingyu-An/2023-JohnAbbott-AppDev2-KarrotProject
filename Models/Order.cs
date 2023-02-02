@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Karrot.Models;
 
@@ -9,7 +10,7 @@ public class Order
 
     public DateTime OrderDate { get; set; }
     
-    public string UserName { get; set; }
+    public IdentityUser OrderUser { get; set; }
     
     [Required(ErrorMessage = "First Name is required")]
     [Display(Name = "First Name")]
