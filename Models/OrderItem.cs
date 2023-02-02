@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace Karrot.Models;
 
 public class OrderItem
@@ -6,7 +8,7 @@ public class OrderItem
 
     public string OrderId { get; set; }
     
-    public string UserName { get; set; }
+    public IdentityUser OrderItemUser { get; set; }
 
     public int OrderQuantity { get; set; }
 

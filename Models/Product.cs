@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Karrot.Models
 {
@@ -10,6 +11,8 @@ namespace Karrot.Models
     {
         [Key]
         public int Id { get; set; }
+        
+        public IdentityUser Owner { get; set; }
         
         [Required]
         [Display(Name = "Description")]
@@ -26,7 +29,7 @@ namespace Karrot.Models
         [Required]
         public string Image { get; set; }
         
-        public int CategoryID { get; set; }
+        public Category Category { get; set; }
         
         public DateTime CreateAt { get; set; }
     }
