@@ -17,7 +17,8 @@ a {
   border-color: #1861ac;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
@@ -26,6 +27,7 @@ a {
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
   border-bottom: 1px solid #e5e5e5;
 }
@@ -46,3 +48,30 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.customFooter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  list-style-type: none;
+}
+
+
+.icon svg {
+  width: 65px;
+  height: 60px; 
+}
+
+.text {
+ 
+  font-family: 'Gilroy', sans-serif;
+  font-size: 16px;
+}
+
+/* Can you use the following for modifying page */
+/* @font-face {
+  font-family: 'Gilroy';
+  src: url('Gilroy-Regular.ttf') format('truetype');
+  font-weight: bolder;
+} */
+
