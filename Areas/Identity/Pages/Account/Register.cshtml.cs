@@ -134,7 +134,8 @@ namespace Karrot.Areas.Identity.Pages.Account
                     if (roleResult.Succeeded)
                     {
                         _logger.LogInformation($"User {Input.UserName} create a new account with password.");
-                        return RedirectToPage(returnUrl, new { email = Input.UserName });
+                        return RedirectToPage("Login");
+                        // return RedirectToPage(returnUrl, new { email = Input.UserName });
                     }
                     
                     // Delete email confirmation

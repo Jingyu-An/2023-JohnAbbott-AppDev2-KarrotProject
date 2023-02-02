@@ -60,7 +60,7 @@ All steps completed.
 
 ======================================================================================================================================================================
 
-Wednesday, January 18, 2023:
+Wednesday, February 1, 2023:
 Daily Srum Meeting:
 1. What I have done / not done since last Scrum?
 2. What I plan to do from this scrum to next? (next 24 hours)
@@ -87,3 +87,32 @@ Hyunju
 
 
 ======================================================================================================================================================================
+
+
+Wednesday, February 2, 2023:
+Daily Srum Meeting:
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+Patrick:
+1. Finished Header and Footer
+2. Plan until next scrum:
+	- Register/Login Page
+	
+3. Nothing yet
+
+Jingyu
+1. Setup database and Azure Server
+2. Plan until next scrum:
+	- Build table relationships
+3. -
+
+Hyunju
+1. Setup up API map and user chat
+2. Plan until next scrum:
+	- Product Register Page
+3. -
+
+======================================================================================================================================================================
+
