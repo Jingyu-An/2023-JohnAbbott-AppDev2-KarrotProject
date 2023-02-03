@@ -5,21 +5,102 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/Karrot.styles.css" asp-append-version="true" /> *@
+    <link href="https://fonts.googleapis.com/css2?family=Gilroy:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        .text-color {
+            color: #212124;
+        }
+
+
+        :root {
+            --btn-primary-color: white;
+            --btn-primary-bg-color: #ff6e1d;
+            --secondary: white;
+            --success: #your-success-color;
+            --danger: #ff6e1d;
+            --warning: #ff6e1d;
+            --info: #your-info-color;
+            --light: #your-light-color;
+            --dark: #your-dark-color;
+            --white: #your-white-color;
+            --black: #your-black-color;
+        }
+
+        .btn-primary {
+            color: var(--btn-primary-color);
+            background-color: var(--btn-primary-bg-color);
+            border: #e96017 1px solid;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Gilroy', sans-serif;
+
+        }
+
+        .btn-primary:hover {
+            background-color: #e96017;
+            border: #e96017 1px solid;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control:focus {
+            border-color: #ff6e1d;
+            box-shadow: 0 -4px 6px rgba(255, 110, 29, 0.1) !important;
+        }
+
+        a:hover {
+            color: #e96017;
+        }
+
+        .form-check-input {
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1)!important;
+        }
+
+        @*.icon{margin:auto;}*@
+    </style>
+</head>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 m-auto">
         <section>
+            <div class="icon" xmlns="http://www.w3.org/2000/svg">
+
+                <svg viewBox="-70 0 250 28">
+                    <path
+                        d="M7.946 8.732a7.944 7.944 0 0 0-7.923 8.49l.008.105a7.9 7.9 0 0 0 .935 3.143c1.728 3.29 5.29 5.298 6.537 5.925.281.14.608.14.887 0 1.248-.627 4.81-2.635 6.537-5.924a7.897 7.897 0 0 0 .936-3.147l.007-.099a7.943 7.943 0 0 0-7.923-8.493Zm0 10.902a2.98 2.98 0 1 1 0-5.958 2.98 2.98 0 0 1 0 5.958Z"
+                        fill="#FF7E36"></path>
+                    <path
+                        d="M4.968 7.954h.64a7.95 7.95 0 0 1 4.678 0h.64a1.49 1.49 0 1 0-.836-2.72 2.483 2.483 0 1 0-4.624-1.25c0 .456.125.882.34 1.25a1.49 1.49 0 1 0-.837 2.72h-.001Z"
+                        fill="#00B493"></path>
+                    <path
+                        d="M37.106 9.073H32.3L28.12 14.74V4.464h-4.229v18.783h4.229V18.06l3.99 5.187h5.236l-5.666-7.112 5.426-7.062Z"
+                        fill="#FF7E36">
+                    </path>
+                    <path
+                        d="M46.663 9.94c-.43-.289-.909-.479-1.487-.669-.719-.24-1.487-.338-2.304-.338-.959 0-1.925.19-2.784.578a7.414 7.414 0 0 0-2.255 1.536 8.15 8.15 0 0 0-1.536 2.305 7.276 7.276 0 0 0-.578 2.882c0 1.008.19 1.966.578 2.883a7.415 7.415 0 0 0 1.536 2.255 7.469 7.469 0 0 0 2.255 1.536 6.667 6.667 0 0 0 2.784.578c.817 0 1.585-.099 2.304-.339a5.282 5.282 0 0 0 1.487-.669v.818h4.18V9.073h-4.18v.867Zm-4.8 9.458c-.387-.19-.767-.43-1.056-.719-.29-.339-.529-.669-.719-1.107-.19-.43-.24-.867-.24-1.346 0-.48.1-.909.24-1.346.19-.43.43-.818.719-1.107.289-.29.669-.578 1.057-.719.388-.19.867-.289 1.346-.289.48 0 .958.1 1.346.29.43.19.818.429 1.107.718.339.289.579.669.768 1.107.19.43.29.867.29 1.346 0 .479-.1.958-.24 1.346-.19.43-.43.768-.719 1.107-.338.339-.669.578-1.106.719-.917.338-1.974.388-2.792 0ZM58.053 9.461c-.48.29-.958.628-1.346 1.058V9.08h-4.18v14.166h4.229v-6.484c0-1.107.29-2.015.867-2.693.579-.627 1.537-.958 2.833-.958h.24V8.883h-.24c-.867 0-1.685.19-2.403.578ZM67.75 9.461c-.48.29-.959.628-1.347 1.058V9.08h-4.18v14.166h4.23v-6.484c0-1.107.289-2.015.867-2.693.578-.627 1.536-.958 2.833-.958h.24V8.883h-.24c-.867 0-1.685.19-2.404.578ZM83.748 10.948c-.669-.669-1.486-1.198-2.403-1.586-.917-.388-1.925-.578-3.023-.578-1.107 0-2.115.19-3.023.578-.917.388-1.727.909-2.404 1.586a7.301 7.301 0 0 0-1.586 2.354 7.276 7.276 0 0 0-.578 2.883c0 1.007.19 2.015.578 2.882a7.256 7.256 0 0 0 1.586 2.354 6.664 6.664 0 0 0 2.404 1.537c.908.388 1.924.578 3.023.578 1.057 0 2.114-.19 3.023-.579.908-.388 1.726-.908 2.403-1.585a7.299 7.299 0 0 0 1.586-2.354 7.276 7.276 0 0 0 .578-2.883c0-1.008-.19-2.015-.578-2.883a6.21 6.21 0 0 0-1.586-2.304Zm-6.773 1.966c.43-.19.868-.24 1.347-.24s.958.1 1.346.24c.43.19.768.43 1.107.718.289.339.528.67.718 1.107.19.43.24.909.24 1.437 0 .529-.1 1.008-.29 1.438-.19.429-.429.817-.767 1.106a3.42 3.42 0 0 1-1.107.768c-.867.389-1.925.389-2.734 0-.43-.19-.768-.43-1.057-.768-.29-.338-.529-.669-.719-1.107-.14-.429-.24-.908-.24-1.437 0-.528.1-1.007.24-1.437.19-.43.43-.818.719-1.107.38-.33.76-.57 1.197-.718ZM95.948 12.864v-3.79h-3.362V5.521h-4.18v3.502h-1.965v3.8h1.966v5.475c0 1.636.43 2.833 1.346 3.7.867.818 2.304 1.248 4.18 1.248h2.064v-3.651h-1.776c-.578 0-.958-.1-1.197-.339-.24-.19-.388-.578-.388-1.156v-5.286h3.312v.05Z"
+                        fill="#FF7E36">
+                    </path>
+                </svg>
+
+            </div>
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
+                <div class="text-center">
+                    <h2>Please login</h2>
+
+                </div>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true"
+                        placeholder="name@example.com" />
                     <label asp-for="Input.UserName" class="form-label">User Name</label>
                     <span asp-validation-for="Input.UserName" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password"
+                        aria-required="true" placeholder="password" />
                     <label asp-for="Input.Password" class="form-label">Password</label>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
@@ -29,53 +110,23 @@
                         @Html.DisplayNameFor(m => m.Input.RememberMe)
                     </label>
                 </div>
-                <div>
+                <div >
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
                 </div>
                 <div>
                     <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                        <a id="forgot-password" class="text-color" asp-page="./ForgotPassword">Forgot your password?</a>
                     </p>
+
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="text-color">Resend email
+                            confirmation</a>
                     </p>
                 </div>
             </form>
         </section>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
+
 </div>
 
 @section Scripts {
