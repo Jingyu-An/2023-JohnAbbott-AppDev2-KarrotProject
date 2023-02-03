@@ -75,7 +75,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    // var context = services.GetRequiredService<KarrotDbContext>();
+    var context = services.GetRequiredService<KarrotDbContext>();
     // context.Database.Migrate();
     // context.Database.EnsureCreated();
 
@@ -83,6 +83,7 @@ using (var scope = app.Services.CreateScope())
     var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();  
 
     IdentitySeedData.Initialize(userMgr, roleMgr).Wait();
+    DbInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();
