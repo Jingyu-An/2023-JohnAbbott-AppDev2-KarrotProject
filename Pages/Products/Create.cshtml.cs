@@ -1,43 +1,116 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Karrot.Data;
 using Karrot.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Build.Framework;
+using Microsoft.EntityFrameworkCore;
 
 namespace Karrot.Pages.Products
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly Karrot.Data.KarrotDbContext _context;
+        private readonly KarrotDbContext context;
+        private ILogger<CreateModel> logger;
+        private readonly string storageConnectionString;
+        private readonly string storageContainerName;
 
-        public CreateModel(Karrot.Data.KarrotDbContext context)
+        public CreateModel(KarrotDbContext context, ILogger<CreateModel> logger,
+            IConfiguration configuration)
         {
-            _context = context;
+            this.context = context;
+            this.logger = logger;
+            storageConnectionString = configuration.GetValue<string>("BlobConnectionString");
+            storageContainerName = configuration.GetValue<string>("BlobContainerName");
         }
 
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
+        [BindProperty, Required] public string Name { get; set; }
 
-        [BindProperty]
-        public Product Product { get; set; } = default!;
-        
+        [BindProperty, Required] public string Description { get; set; }
+
+        [BindProperty, Required] public double Price { get; set; }
+
+        [BindProperty] public IFormFile Image { get; set; }
+
+        [BindProperty, Required] public int Category { get; set; }
+        public List<Category>? Categories { get; set; }
+
+        public async Task OnGetAsync()
+        {
+            if (context.Categories != null)
+            {
+                Categories = await context.Categories.ToListAsync();
+            }
+        }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Products == null || Product == null)
+            Categories = await context.Categories.ToListAsync();
+            string url = "";
+
+            if (!ModelState.IsValid || context.Products == null || context.Categories == null)
             {
                 return Page();
             }
 
-            _context.Products.Add(Product);
-            await _context.SaveChangesAsync();
+            if (Image != null)
+            {
+                string fileExtension = Path.GetExtension(Image.FileName).ToLower();
+                string[] allowedExtensions = { ".jpg", ".jpeg", ".gif", ".png" };
+                
+                if (!allowedExtensions.Contains(fileExtension))
+                {
+                    ModelState.AddModelError(string.Empty, "Only Image files" +
+                                                           "(jpg, jpeg, gif, png) are allowed");
+                    return Page();
+                }
+                var invalids = Path.GetInvalidPathChars();
+                var newFileName = String.Join("_", Image.FileName.Split(invalids, StringSplitOptions.RemoveEmptyEntries))
+                    .TrimEnd('.');
+                
+                var container = new BlobContainerClient(storageConnectionString, storageContainerName);
+                try
+                {
+                    var blob = container.GetBlobClient(newFileName);
+
+                    await using (Stream? data = Image.OpenReadStream())
+                    {
+                        await blob.UploadAsync(data);
+                    }
+
+                    url = blob.Uri.ToString();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+
+            var userName = User.Identity.Name;
+            var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+            var category = context.Categories.Where(c => c.CategoryId == Category).FirstOrDefault();
+
+            logger.LogInformation(
+                $"{Name}, {Description}, {Price}, {Image.FileName}, {category.CategoryName}, {user.UserName}, {url}");
+
+            var newProduct = new Product
+            {
+                Owner = user, ProductName = Name, ProductDescription = Description, Image = url,
+                ProductPrice = Price, Category = category, CreateAt = DateTime.Now
+            };
+            
+            context.Products.Add(newProduct);
+            await context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
