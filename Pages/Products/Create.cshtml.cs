@@ -97,10 +97,6 @@ namespace Karrot.Pages.Products
                     {
                         await blob.UploadAsync(data);
                     }
-                    Match match = Regex.Match(url, @"([^/]+\.[^/]+)$");
-                    string filename = match.Groups[1].Value;
-
-                    container.DeleteBlob(filename);
                     url = blob.Uri.ToString();
                 }
                 catch (Exception e)
