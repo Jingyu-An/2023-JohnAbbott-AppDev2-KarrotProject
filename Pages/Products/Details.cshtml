@@ -1,4 +1,6 @@
 @page
+@using Karrot.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Karrot.Pages.Products.DetailsModel
 
 @{
@@ -41,8 +43,51 @@
         <dd class="col-sm-10">
             @Model.Product.Address.ToString()
         </dd>
+        @if (User.Identity.Name != null)
+        {
+            <div class="row">
+                <form method="post" class="d-flex flex-column gap-3">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Comment.CommentBody" class="control-label">Comment</label>
+                        <textarea asp-for="Comment.CommentBody" class="form-control"></textarea>
+                        <span asp-validation-for="Comment.CommentBody" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Submit Comment" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+
+        }
+        else
+        {
+            <p class="text-center">Please <a asp-area="Identity" asp-page="/Account/Login">login</a> to leave a comment.</p>
+        }
+
     </dl>
 </div>
+@if (Model.Comment != null || )
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group">
+                @foreach (var comment in Model.Comment)
+                {
+                    @* <div class="list-group-item"> *@
+                    @*     <div class="d-flex w-100 justify-content-between"> *@
+                    @*         <h5 class="mb-1">@comment.Author?.Email</h5> *@
+                    @*         <small>@comment.CreatedAt</small> *@
+                    @*     </div> *@
+                    @*     <p class="mb-1">@comment.Content</p> *@
+                    @* </div> *@
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Product?.Id">Edit</a> |
     <a asp-page="./Index">Back to List</a>
