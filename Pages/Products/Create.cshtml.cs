@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc;
@@ -32,16 +33,16 @@ namespace Karrot.Pages.Products
             storageContainerName = configuration.GetValue<string>("BlobContainerName");
         }
 
-        [BindProperty, Microsoft.Build.Framework.Required] public string Name { get; set; }
+        [BindProperty, Required] public string Name { get; set; }
 
-        [BindProperty, Microsoft.Build.Framework.Required] public string Description { get; set; }
+        [BindProperty, Required] public string Description { get; set; }
 
-        [BindProperty, Microsoft.Build.Framework.Required] public double Price { get; set; }
+        [BindProperty, Required] public double Price { get; set; }
 
-        [BindProperty] public IFormFile Image { get; set; }
+        [BindProperty, Required] public IFormFile Image { get; set; }
         
-        [BindProperty, Microsoft.Build.Framework.Required] public int Category { get; set; }
-        [BindProperty, Microsoft.Build.Framework.Required] public int Address { get; set; }
+        [BindProperty, Required] public int Category { get; set; }
+        [BindProperty, Required] public int Address { get; set; }
         public List<Category>? Categories { get; set; }
         public List<Address>? Addresses { get; set; }
 
@@ -96,7 +97,10 @@ namespace Karrot.Pages.Products
                     {
                         await blob.UploadAsync(data);
                     }
+                    Match match = Regex.Match(url, @"([^/]+\.[^/]+)$");
+                    string filename = match.Groups[1].Value;
 
+                    container.DeleteBlob(filename);
                     url = blob.Uri.ToString();
                 }
                 catch (Exception e)

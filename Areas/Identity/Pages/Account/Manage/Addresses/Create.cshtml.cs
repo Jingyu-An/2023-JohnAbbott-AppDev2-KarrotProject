@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Karrot.Data;
 using Karrot.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly KarrotDbContext context;

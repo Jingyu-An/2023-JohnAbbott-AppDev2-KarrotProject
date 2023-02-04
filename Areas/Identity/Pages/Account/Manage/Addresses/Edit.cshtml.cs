@@ -8,29 +8,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Karrot.Data;
 using Karrot.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
 {
+    [Authorize]
     public class EditModel : PageModel
     {
-        private readonly Karrot.Data.KarrotDbContext _context;
+        private readonly KarrotDbContext context;
 
-        public EditModel(Karrot.Data.KarrotDbContext context)
+        public EditModel(KarrotDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
+        
+        [BindProperty(SupportsGet = true)]
+        public int Id { get; set; }
 
         [BindProperty]
         public Address Address { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Address == null)
+            if (id == null || context.Address == null)
             {
                 return NotFound();
             }
 
-            var address =  await _context.Address.FirstOrDefaultAsync(m => m.AddressId == id);
+            var address =  await context.Address.FirstOrDefaultAsync(m => m.AddressId == id);
             if (address == null)
             {
                 return NotFound();
@@ -43,16 +48,25 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            var address = await context.Address.FindAsync(Id);
+            ModelState.Remove("Address.User");
+            
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Attach(Address).State = EntityState.Modified;
+            address.AddressLine1 = Address.AddressLine1;
+            address.AddressLine2 = Address.AddressLine2;
+            address.City = Address.City;
+            address.State = Address.State;
+            address.Country = Address.Country;
+            address.PostalCode = address.PostalCode;
 
+            context.Address.Update(address);
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -66,12 +80,12 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Address");
         }
 
         private bool AddressExists(int id)
         {
-          return (_context.Address?.Any(e => e.AddressId == id)).GetValueOrDefault();
+          return (context.Address?.Any(e => e.AddressId == id)).GetValueOrDefault();
         }
     }
 }

@@ -1,4 +1,7 @@
 @page
+@using System.Net.Mime
+@using Microsoft.CodeAnalysis
+@using Document = System.Reflection.Metadata.Document
 @model Karrot.Pages.Products.EditModel
 
 @{
@@ -9,39 +12,75 @@
 <h1>Edit</h1>
 
 <h4>Product</h4>
-<hr />
+<hr/>
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <div class="text-center" style="padding-bottom: 40px">
+            <img id="productImage" src="@Model.Product.Image" alt=""
+                 style="max-height: 500px; width: auto;"/>
+        </div>
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Product.Id" />
-            <div class="form-group">
-                <label asp-for="Product.ProductDescription" class="control-label"></label>
-                <input asp-for="Product.ProductDescription" class="form-control" />
-                <span asp-validation-for="Product.ProductDescription" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="Product.Id"/>
             <div class="form-group">
                 <label asp-for="Product.ProductName" class="control-label"></label>
-                <input asp-for="Product.ProductName" class="form-control" />
+                <input asp-for="Product.ProductName" class="form-control"/>
                 <span asp-validation-for="Product.ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Product.ProductDescription" class="control-label"></label>
+                <input asp-for="Product.ProductDescription" class="form-control"/>
+                <span asp-validation-for="Product.ProductDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Product.ProductPrice" class="control-label"></label>
-                <input asp-for="Product.ProductPrice" class="form-control" />
+                <input asp-for="Product.ProductPrice" class="form-control"/>
                 <span asp-validation-for="Product.ProductPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product.Image" class="control-label"></label>
-                <input asp-for="Product.Image" class="form-control" />
-                <span asp-validation-for="Product.Image" class="text-danger"></span>
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control"/>
+                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product.CreateAt" class="control-label"></label>
-                <input asp-for="Product.CreateAt" class="form-control" />
-                <span asp-validation-for="Product.CreateAt" class="text-danger"></span>
+                <label asp-for="Category" class="control-label"></label>
+                <br/>
+                <select asp-for="Category" class="form-control section">
+                    @foreach (var category in Model.Categories)
+                    {
+                        if (Model.CategoryId != category.CategoryId)
+                        {
+                            <option class="form-control" value="@category.CategoryId">@category.CategoryName</option>
+                        }
+                        else
+                        {
+                            <option class="form-control" value="@category.CategoryId" selected="selected">@category.CategoryName</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="Address" class="control-label"></label>
+                <a asp-area="Identity" asp-page="/Account/Manage/Address">New Address</a>
+                <br/>
+                <select asp-for="Address" class="form-control section">
+                    @foreach (var address in Model.Addresses)
+                    {
+                        if (Model.AddressId != address.AddressId)
+                        {
+                            <option class="form-control" value="@address.AddressId">@address.ToString()</option>
+                        }
+                        else
+                        {
+                            <option class="form-control" value="@address.AddressId" selected="selected">@address.ToString()</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary"/>
             </div>
         </form>
     </div>
@@ -52,5 +91,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
