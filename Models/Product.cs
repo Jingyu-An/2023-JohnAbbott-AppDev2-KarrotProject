@@ -28,8 +28,7 @@ namespace Karrot.Models
         [Display(Name = "Price")]
         public double ProductPrice { get; set; }
         
-        [Required]
-        public string Image { get; set; }
+        public string? Image { get; set; }
         
         public Category Category { get; set; }
         

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -42,7 +43,8 @@ namespace Karrot.Pages.Products
 
         [BindProperty] public int Address { get; set; }
 
-        [BindProperty] public IFormFile Image { get; set; }
+        [BindProperty] 
+        public IFormFile? Image { get; set; }
 
         public List<Category> Categories { get; set; }
         public int CategoryId { get; set; }
@@ -97,6 +99,7 @@ namespace Karrot.Pages.Products
             ModelState.Remove("Product.Category");
             ModelState.Remove("Product.Address");
             ModelState.Remove("Product.Image");
+            ModelState.Remove("Image");
 
             if (!ModelState.IsValid)
             {
