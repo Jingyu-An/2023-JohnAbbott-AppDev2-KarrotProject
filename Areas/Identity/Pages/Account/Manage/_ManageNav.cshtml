@@ -1,14 +1,95 @@
 @inject SignInManager<IdentityUser> SignInManager
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Karrot</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/Karrot.styles.css" asp-append-version="true" /> *@
+    <link href="https://fonts.googleapis.com/css2?family=Gilroy:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        .nav-pills .nav-link.active {
+            color: #fff;
+            background-color: #ff6f0f !important;
+            border-color: #ff6f0f !important;
+        }
+
+        .text-color {
+            color: #212124;
+        }
+
+
+        :root {
+            --btn-primary-color: white;
+            --btn-primary-bg-color: #ff6e1d;
+            --secondary: white;
+            --success: #your-success-color;
+            --danger: #ff6e1d;
+            --warning: #ff6e1d;
+            --info: #your-info-color;
+            --light: #your-light-color;
+            --dark: #your-dark-color;
+            --white: #your-white-color;
+            --black: #your-black-color;
+        }
+
+        .btn-primary {
+            color: var(--btn-primary-color);
+            background-color: var(--btn-primary-bg-color);
+            border: #e96017 1px solid;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Gilroy', sans-serif;
+
+        }
+
+        .btn-primary:hover {
+            background-color: #e96017;
+            border: #e96017 1px solid;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:active {
+            background-color: #e96017;
+            border: #e96017 1px solid;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .form-control:focus {
+            border-color: #ff6e1d;
+            box-shadow: 0 -4px 6px rgba(255, 110, 29, 0.1) !important;
+        }
+
+        a.text-color:active {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a.text-color:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+    </style>
+</head>
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+<ul class="nav nav-pills flex-column w-50 text-center">
+    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext) text-color" id="profile"
+            asp-page="./Index" style="text-decoration: none;"><strong>Profile</strong></a></li>
+    <li class="nav-item "><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext) text-color" id="email"
+            asp-page="./Email"><strong>Email</strong></a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext) text-color"
+            id="change-password" asp-page="./ChangePassword"><strong>Password</strong></a></li>
     @if (hasExternalLogins)
     {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+        <li id="external-logins" class="nav-item"><a id="external-login"
+                class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External
+                logins</a>
+        </li>
     }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./Address">Address</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext) text-color"
+            id="personal-data" asp-page="./Address"><strong>Address</strong></a></li>
 </ul>

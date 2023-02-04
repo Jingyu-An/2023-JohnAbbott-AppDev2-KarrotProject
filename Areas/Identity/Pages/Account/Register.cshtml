@@ -45,14 +45,19 @@
             box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .btn-primary:active {
+            background-color: #e96017;
+            border: #e96017 1px solid;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+
+        }
+
         .form-control:focus {
             border-color: #ff6e1d;
             box-shadow: 0 -4px 6px rgba(255, 110, 29, 0.1) !important;
         }
 
-        @* .icon {
-            margin: auto;
-        } *@
+        
     </style>
 </head>
 
@@ -61,7 +66,7 @@
 <div class="row">
     <div class="col-md-6 m-auto">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div class="icon"  xmlns="http://www.w3.org/2000/svg">
+            <div class="icon" xmlns="http://www.w3.org/2000/svg">
 
                 <svg viewBox="-65 0 250 28">
                     <path
@@ -119,31 +124,8 @@
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>
-    @* <div class="col-md-6 col-md-offset-2"> *@
-    <section>
-        <hr />
-        @* @{
-        if ((Model.ExternalLogins?.Count ?? 0) == 0)
-        {
 
-        }
-        else
-        {
-        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post"
-        class="form-horizontal">
-        <div>
-        <p>
-        @foreach (var provider in Model.ExternalLogins!)
-        {
-        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name"
-        title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-        }
-        </p>
-        </div>
-        </form>
-        } *@
-        @* } *@
-    </section>
+
 </div>
 </div>
 
