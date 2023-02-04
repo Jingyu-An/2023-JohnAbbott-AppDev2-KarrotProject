@@ -1,9 +1,8 @@
-using System.Collections;
 using Microsoft.AspNetCore.Identity;
 
 namespace Karrot.Models;
 
-public class Comment : IEnumerable
+public class Comment 
 {
     public int CommentId { get; set; }
 
@@ -16,8 +15,5 @@ public class Comment : IEnumerable
     public string CommentTitle { get; set; }
     
     public DateTime CommentCreated { get; set; }
-    public IEnumerator GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
+   
 }

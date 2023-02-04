@@ -15,7 +15,7 @@
     </p>
     <hr/>
     <div class="text-center" style="padding-bottom: 40px">
-        <img src="@Model.Product.Image" alt=""
+        <img src="@Model.Image" alt=""
              style="max-height: 500px; width: auto;"/>
     </div>
     <dl class="row">
@@ -35,13 +35,13 @@
             @Html.DisplayNameFor(model => model.Product.Category)
         </dt>
         <dd class="col-sm-10">
-            @Model.Product.Category.CategoryName
+            @Model.CategoryName
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Product.Address)
         </dt>
         <dd class="col-sm-10">
-            @Model.Product.Address.ToString()
+            @Model.Address
         </dd>
         @if (User.Identity.Name != null)
         {
@@ -67,20 +67,20 @@
 
     </dl>
 </div>
-@if (Model.Comment != null || )
+@if (Model.Comments != null || Model.Comments.Count> 0 )
 {
     <div class="row">
         <div class="col-12">
             <div class="list-group">
-                @foreach (var comment in Model.Comment)
+                @foreach (var comment in Model.Comments)
                 {
-                    @* <div class="list-group-item"> *@
-                    @*     <div class="d-flex w-100 justify-content-between"> *@
-                    @*         <h5 class="mb-1">@comment.Author?.Email</h5> *@
-                    @*         <small>@comment.CreatedAt</small> *@
-                    @*     </div> *@
-                    @*     <p class="mb-1">@comment.Content</p> *@
-                    @* </div> *@
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">@comment.CommentUser.UserName</h5>
+                            <small>@comment.CommentCreated</small>
+                        </div>
+                        <p class="mb-1">@comment.CommentBody</p>
+                    </div>
                 }
             </div>
         </div>
