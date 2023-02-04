@@ -1,11 +1,11 @@
 @inject SignInManager<IdentityUser> SignInManager
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - Karrot</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     @* <link rel="stylesheet" href="~/Karrot.styles.css" asp-append-version="true" /> *@
     <link href="https://fonts.googleapis.com/css2?family=Gilroy:wght@300;400;700&display=swap" rel="stylesheet">
 
@@ -77,19 +77,38 @@
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
 <ul class="nav nav-pills flex-column w-50 text-center">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext) text-color" id="profile"
-            asp-page="./Index" style="text-decoration: none;"><strong>Profile</strong></a></li>
-    <li class="nav-item "><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext) text-color" id="email"
-            asp-page="./Email"><strong>Email</strong></a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext) text-color"
-            id="change-password" asp-page="./ChangePassword"><strong>Password</strong></a></li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.IndexNavClass(ViewContext) text-color" id="profile"
+           asp-page="./Index" style="text-decoration: none;">
+            <strong>Profile</strong>
+        </a>
+    </li>
+    <li class="nav-item ">
+        <a class="nav-link @ManageNavPages.EmailNavClass(ViewContext) text-color" id="email"
+           asp-page="./Email">
+            <strong>Email</strong>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext) text-color"
+           id="change-password" asp-page="./ChangePassword">
+            <strong>Password</strong>
+        </a>
+    </li>
     @if (hasExternalLogins)
     {
-        <li id="external-logins" class="nav-item"><a id="external-login"
-                class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External
-                logins</a>
+        <li id="external-logins" class="nav-item">
+            <a id="external-login"
+               class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">
+                External
+                logins
+            </a>
         </li>
     }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext) text-color"
-            id="personal-data" asp-page="./Address"><strong>Address</strong></a></li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext) text-color"
+           id="personal-data" asp-page="./Address">
+            <strong>Address</strong>
+        </a>
+    </li>
 </ul>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Karrot.Data.Migrations
 {
     [DbContext(typeof(KarrotDbContext))]
-    [Migration("20230202161152_ConnectionTable")]
-    partial class ConnectionTable
+    [Migration("20230204040936_AddUserOnAddress")]
+    partial class AddUserOnAddress
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,10 +25,61 @@ namespace Karrot.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Karrot.Models.Address", b =>
+                {
+                    b.Property<int>("AddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AddressId"));
+
+                    b.Property<string>("AddressLine1")
+                        .IsRequired()
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
+
+                    b.Property<string>("AddressLine2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AddressId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Address");
+                });
+
             modelBuilder.Entity("Karrot.Models.CartItem", b =>
                 {
-                    b.Property<string>("CartItemId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemId"));
 
                     b.Property<DateTime>("CartItemCreated")
                         .HasColumnType("datetime2");
@@ -71,8 +122,11 @@ namespace Karrot.Data.Migrations
 
             modelBuilder.Entity("Karrot.Models.Comment", b =>
                 {
-                    b.Property<string>("CommentId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
                     b.Property<string>("CommentBody")
                         .IsRequired()
@@ -102,8 +156,11 @@ namespace Karrot.Data.Migrations
 
             modelBuilder.Entity("Karrot.Models.Order", b =>
                 {
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -171,12 +228,18 @@ namespace Karrot.Data.Migrations
 
             modelBuilder.Entity("Karrot.Models.OrderItem", b =>
                 {
-                    b.Property<string>("OrderItemId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OrderItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemId"));
 
                     b.Property<string>("OrderId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OrderId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("OrderItemUserId")
                         .HasColumnType("nvarchar(450)");
@@ -192,7 +255,7 @@ namespace Karrot.Data.Migrations
 
                     b.HasKey("OrderItemId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderId1");
 
                     b.HasIndex("OrderItemUserId");
 
@@ -206,6 +269,9 @@ namespace Karrot.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -232,6 +298,8 @@ namespace Karrot.Data.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("CategoryId");
 
@@ -463,6 +531,17 @@ namespace Karrot.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Karrot.Models.Address", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Karrot.Models.CartItem", b =>
                 {
                     b.HasOne("Karrot.Models.Product", "CartItemProduct")
@@ -510,9 +589,7 @@ namespace Karrot.Data.Migrations
                 {
                     b.HasOne("Karrot.Models.Order", null)
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId1");
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "OrderItemUser")
                         .WithMany()
@@ -523,6 +600,12 @@ namespace Karrot.Data.Migrations
 
             modelBuilder.Entity("Karrot.Models.Product", b =>
                 {
+                    b.HasOne("Karrot.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Karrot.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
@@ -532,6 +615,8 @@ namespace Karrot.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
+
+                    b.Navigation("Address");
 
                     b.Navigation("Category");
 

@@ -6,7 +6,7 @@ namespace Karrot.Models;
 public class Order
 {
     [Key]
-    public string OrderId { get; set; }
+    public int OrderId { get; set; }
 
     public DateTime OrderDate { get; set; }
     

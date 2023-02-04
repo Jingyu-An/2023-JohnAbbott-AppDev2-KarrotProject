@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Identity\Pages\Account\Manage\Addresses" />
+    <Folder Include="Data\Migrations" />
     <Folder Include="Pages\Products" />
   </ItemGroup>
 

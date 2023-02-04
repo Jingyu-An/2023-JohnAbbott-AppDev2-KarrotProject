@@ -7,14 +7,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Karrot.Data;
 using Karrot.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Karrot.Pages.Products
 {
+    [Authorize]
     public class DetailsModel : PageModel
     {
-        private readonly Karrot.Data.KarrotDbContext _context;
+        private readonly KarrotDbContext _context;
 
-        public DetailsModel(Karrot.Data.KarrotDbContext context)
+        public DetailsModel(KarrotDbContext context)
         {
             _context = context;
         }
@@ -28,7 +30,7 @@ namespace Karrot.Pages.Products
                 return NotFound();
             }
 
-            var product = await _context.Products.FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.Include("Address").FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();

@@ -4,7 +4,7 @@ namespace Karrot.Models;
 
 public class OrderItem
 {
-    public string OrderItemId { get; set; }
+    public int OrderItemId { get; set; }
 
     public string OrderId { get; set; }
     

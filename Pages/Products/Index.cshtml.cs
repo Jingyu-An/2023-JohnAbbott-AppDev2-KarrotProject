@@ -12,9 +12,9 @@ namespace Karrot.Pages.Products
 {
     public class IndexModel : PageModel
     {
-        private readonly Karrot.Data.KarrotDbContext _context;
+        private readonly KarrotDbContext _context;
 
-        public IndexModel(Karrot.Data.KarrotDbContext context)
+        public IndexModel(KarrotDbContext context)
         {
             _context = context;
         }

@@ -4,7 +4,7 @@ namespace Karrot.Models;
 
 public class Comment
 {
-    public string CommentId { get; set; }
+    public int CommentId { get; set; }
 
     public IdentityUser CommentUser { get; set; }
     

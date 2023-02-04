@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Karrot.Data;
 using Karrot.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 
 namespace Karrot.Pages.Products
@@ -32,22 +32,29 @@ namespace Karrot.Pages.Products
             storageContainerName = configuration.GetValue<string>("BlobContainerName");
         }
 
-        [BindProperty, Required] public string Name { get; set; }
+        [BindProperty, Microsoft.Build.Framework.Required] public string Name { get; set; }
 
-        [BindProperty, Required] public string Description { get; set; }
+        [BindProperty, Microsoft.Build.Framework.Required] public string Description { get; set; }
 
-        [BindProperty, Required] public double Price { get; set; }
+        [BindProperty, Microsoft.Build.Framework.Required] public double Price { get; set; }
 
         [BindProperty] public IFormFile Image { get; set; }
-
-        [BindProperty, Required] public int Category { get; set; }
+        
+        [BindProperty, Microsoft.Build.Framework.Required] public int Category { get; set; }
+        [BindProperty, Microsoft.Build.Framework.Required] public int Address { get; set; }
         public List<Category>? Categories { get; set; }
+        public List<Address>? Addresses { get; set; }
 
         public async Task OnGetAsync()
         {
             if (context.Categories != null)
             {
                 Categories = await context.Categories.ToListAsync();
+            }
+
+            if (context.Address != null)
+            {
+                Addresses = await context.Address.Where(u => u.User.UserName == User.Identity.Name).ToListAsync();
             }
         }
 
@@ -66,21 +73,24 @@ namespace Karrot.Pages.Products
             {
                 string fileExtension = Path.GetExtension(Image.FileName).ToLower();
                 string[] allowedExtensions = { ".jpg", ".jpeg", ".gif", ".png" };
-                
+
                 if (!allowedExtensions.Contains(fileExtension))
                 {
                     ModelState.AddModelError(string.Empty, "Only Image files" +
                                                            "(jpg, jpeg, gif, png) are allowed");
                     return Page();
                 }
+
                 var invalids = Path.GetInvalidPathChars();
                 var newFileName = String.Join("_", Image.FileName.Split(invalids, StringSplitOptions.RemoveEmptyEntries))
                     .TrimEnd('.');
                 
+                var uploadFileName = User.Identity.Name + "_" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss-fff") + "_" + newFileName;
+                
                 var container = new BlobContainerClient(storageConnectionString, storageContainerName);
                 try
                 {
-                    var blob = container.GetBlobClient(newFileName);
+                    var blob = container.GetBlobClient(uploadFileName);
 
                     await using (Stream? data = Image.OpenReadStream())
                     {
@@ -99,16 +109,17 @@ namespace Karrot.Pages.Products
             var userName = User.Identity.Name;
             var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
             var category = context.Categories.Where(c => c.CategoryId == Category).FirstOrDefault();
-
+            var address = context.Address.Where(a => a.AddressId == Address).FirstOrDefault();
+            
             logger.LogInformation(
                 $"{Name}, {Description}, {Price}, {Image.FileName}, {category.CategoryName}, {user.UserName}, {url}");
 
             var newProduct = new Product
             {
                 Owner = user, ProductName = Name, ProductDescription = Description, Image = url,
-                ProductPrice = Price, Category = category, CreateAt = DateTime.Now
+                ProductPrice = Price, Category = category, CreateAt = DateTime.Now, Address = address
             };
-            
+
             context.Products.Add(newProduct);
             await context.SaveChangesAsync();
 

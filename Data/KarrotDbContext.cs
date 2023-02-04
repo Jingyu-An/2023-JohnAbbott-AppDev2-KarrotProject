@@ -22,5 +22,6 @@ namespace Karrot.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Karrot.Models.Address> Address { get; set; } = default!;
     }
 }

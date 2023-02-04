@@ -76,7 +76,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<KarrotDbContext>();
-    // context.Database.Migrate();
+    //context.Database.Migrate();
     // context.Database.EnsureCreated();
 
     var userMgr = services.GetRequiredService<UserManager<IdentityUser>>();  

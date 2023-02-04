@@ -6,7 +6,7 @@ namespace Karrot.Models;
 public class CartItem
 {
     [Key]
-    public string CartItemId { get; set; }
+    public int CartItemId { get; set; }
 
     public IdentityUser CartItemUser { get; set; }
 

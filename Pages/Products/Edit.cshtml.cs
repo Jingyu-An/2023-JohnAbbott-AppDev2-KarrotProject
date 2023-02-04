@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Karrot.Data;
 using Karrot.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Karrot.Pages.Products
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly Karrot.Data.KarrotDbContext _context;

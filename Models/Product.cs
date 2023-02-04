@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Karrot.Areas.Identity.Pages.Account.Manage;
 using Microsoft.AspNetCore.Identity;
 
 namespace Karrot.Models
@@ -30,6 +32,9 @@ namespace Karrot.Models
         public string Image { get; set; }
         
         public Category Category { get; set; }
+        
+        [AllowNull]
+        public Address Address { get; set; }
         
         public DateTime CreateAt { get; set; }
     }
