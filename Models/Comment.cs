@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace Karrot.Models;
@@ -14,6 +15,7 @@ public class Comment
     
     public string CommentTitle { get; set; }
     
+    [Display(Name = "Date")]
     public DateTime CommentCreated { get; set; }
    
 }

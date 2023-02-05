@@ -8,6 +8,7 @@ public class Order
     [Key]
     public int OrderId { get; set; }
 
+    [Display(Name = "Date")]
     public DateTime OrderDate { get; set; }
     
     public IdentityUser OrderUser { get; set; }

@@ -10,9 +10,11 @@ public class CartItem
 
     public IdentityUser CartItemUser { get; set; }
 
+    [Display(Name = "Quantity")]
     public int CartQuantity { get; set; }
 
     public Product CartItemProduct { get; set; }
     
+    [Display(Name = "Date")]
     public DateTime CartItemCreated { get; set; }
 }

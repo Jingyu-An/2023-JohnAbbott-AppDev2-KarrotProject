@@ -111,9 +111,6 @@ namespace Karrot.Pages.Products
             var category = context.Categories.Where(c => c.CategoryId == Category).FirstOrDefault();
             var address = context.Address.Where(a => a.AddressId == Address).FirstOrDefault();
             
-            logger.LogInformation(
-                $"{Name}, {Description}, {Price}, {Image.FileName}, {category.CategoryName}, {user.UserName}, {url}");
-
             var newProduct = new Product
             {
                 Owner = user, ProductName = Name, ProductDescription = Description, Image = url,

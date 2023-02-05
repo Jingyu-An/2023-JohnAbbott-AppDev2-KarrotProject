@@ -95,6 +95,7 @@
 <div>
     @if (User.Identity.Name == Model.Product.Owner.UserName)
     {
+        <a asp-page="../CartItems/Create" asp-route-id="@Model.Product.Id">Add Cart</a>
         <a asp-page="./Edit" asp-route-id="@Model.Product?.Id">Edit</a> 
     }
 

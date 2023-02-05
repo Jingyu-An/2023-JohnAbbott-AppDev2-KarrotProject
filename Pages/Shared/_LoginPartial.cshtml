@@ -1,25 +1,45 @@
 @using Microsoft.AspNetCore.Identity
+@using Karrot.Data
+@using Karrot.Models
+@using Microsoft.EntityFrameworkCore;
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject KarrotDbContext Context
 
 <head>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 </head>
 <ul class="navbar-nav">
-
+    @{
+        IList<CartItem> cartItems = await Context.CartItems.
+            Where(c => c.CartItemUser.UserName == User.Identity.Name).ToListAsync();
+    }
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><strong>Hello
-                @(UserManager.GetUserName(User).First().ToString().ToUpper() +
-                    UserManager.GetUserName(User).Substring(1))!</strong></a>
+            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <strong>
+                    Hello
+                    @(UserManager.GetUserName(User).First().ToString().ToUpper() +
+                      UserManager.GetUserName(User).Substring(1))!
+                </strong>
+            </a>
         </li>
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
-            asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                  asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                 <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0 bold">Logout</button>
             </form>
+        </li>
+        <li class="nav-item bold">
+            <a class="nav-link" id="test" asp-area="" asp-page="/CartItems/Index">
+                Cart(
+                @{ if (cartItems != null)
+                       @(cartItems.Count()) 
+                }
+                )
+            </a>
         </li>
     }
     else
@@ -30,6 +50,5 @@
         <li class="nav-item">
             <a class="nav-link bold" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
-
     }
 </ul>

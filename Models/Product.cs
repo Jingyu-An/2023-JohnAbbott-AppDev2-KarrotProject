@@ -35,6 +35,7 @@ namespace Karrot.Models
         [AllowNull]
         public Address Address { get; set; }
         
+        [Display(Name = "Date")]
         public DateTime CreateAt { get; set; }
     }
 }
