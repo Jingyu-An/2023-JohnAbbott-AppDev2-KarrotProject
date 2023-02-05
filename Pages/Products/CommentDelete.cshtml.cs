@@ -16,8 +16,6 @@ public class CommentDelete : PageModel
     [BindProperty]
     public Models.Comment Comment { get; set; } = default!;
 
-    public Models.Product Product { get; set; } = default!;
-    
     public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id == null || _context.Comments == null)

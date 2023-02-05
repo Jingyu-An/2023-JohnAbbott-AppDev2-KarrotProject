@@ -65,10 +65,10 @@
                         <a href="#0">Intro</a>
                     </li>
                     <li>
-                        <a href="#0">Tech 1</a>
+                        <a href="#0">Intro</a>
                     </li>
                     <li>
-                        <a href="#0">Tech 2</a>
+                        <a href="#0">Intro</a>
                     </li>
                 </ul>
             </nav>
@@ -81,37 +81,30 @@
     <div class="main-lists">
         <h2 class="main-lists-title">What's popular right now</h2>
         <div class="main-list-products">
-            <a href="/articles/403916" class="main-a">
-                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
-                     width="100%" height="100%" alt="hot-article" class="main-picture">
-                <div class="main-price">$100.00</div>
-                <div class="main-address">Financial District, Toronto</div>
-            </a>
-             <a href="/articles/403916" class="main-a">
-                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
-                     width="100%" height="100%" alt="hot-article" class="main-picture">
-                <div class="main-price">$100.00</div>
-                <div class="main-address">Financial District, Toronto</div>
-            </a>
-             <a href="/articles/403916" class="main-a">
-                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
-                     width="100%" height="100%" alt="hot-article" class="main-picture">
-                <div class="main-price">$100.00</div>
-                <div class="main-address">Financial District, Toronto</div>
-            </a>
-            <a href="/articles/403916" class="main-a">
-                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
-                     width="100%" height="100%" alt="hot-article" class="main-picture">
-                <div class="main-price">$100.00</div>
-                <div class="main-address">Financial District, Toronto</div>
-            </a>
-            <a href="/articles/403916" class="main-a">
-                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
-                     width="100%" height="100%" alt="hot-article" class="main-picture">
-                <div class="main-price">$100.00</div>
-                <div class="main-address">Financial District, Toronto</div>
-            </a>
-            
+            @foreach (var item in Model.Product)
+            {
+                <a href="/articles/403916" class="main-a">
+                    @* <img src="@item.Image?q=82&amp;s=300x300&amp;t=crop" width="100%" height="100%" alt="hot-article" class="main-picture"> *@
+                    <img src="@item.Image"
+                         width="100%" height="100%" alt="hot-article" class="main-picture">
+                    <div class="main-price">$@Html.DisplayFor(modelItem => item.ProductPrice)</div>
+                    <div class="main-address"> @Html.DisplayFor(modelItem => item.Address.AddressLine1) , @Html.DisplayFor(modelItem => item.Address.City)</div>
+                </a>
+            }
+
+            @* <a href="/articles/403916" class="main-a"> *@
+            @*     <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop" *@
+            @*          width="100%" height="100%" alt="hot-article" class="main-picture"> *@
+            @*     <div class="main-price">$100.00</div> *@
+            @*     <div class="main-address">Financial District, Toronto</div> *@
+            @* </a> *@
+            @* <a href="/articles/403916" class="main-a"> *@
+            @*     <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop" *@
+            @*          width="100%" height="100%" alt="hot-article" class="main-picture"> *@
+            @*     <div class="main-price">$100.00</div> *@
+            @*     <div class="main-address">Financial District, Toronto</div> *@
+            @* </a> *@
+
         </div>
         <a href="/hot_articles" class="discover-more">Discover more</a>
     </div>
