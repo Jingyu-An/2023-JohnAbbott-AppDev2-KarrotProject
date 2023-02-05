@@ -3,8 +3,117 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<head>
+    @* hero slider api *@
+    <link rel="stylesheet" href="~/css/hero.css"/>
 
+</head>
 <div class="text-center">
-    <a asp-page="/SimpleChat"> Go to chat.</a><br/>
- <a asp-page="/Map"> Go to map.</a>
+    @* <a asp-page="/SimpleChat"> Go to chat.</a><br/> *@
+    @* <a asp-page="/Map"> Go to map.</a> *@
 </div>
+
+
+<!-- BODY -->
+<div id="body__container">
+    <section class="cd-hero js-cd-hero js-cd-autoplay">
+        <ul class="cd-hero__slider">
+            <li class="cd-hero__slide js-cd-slide" style="background-image:url(https://assets.ca.karrotmarket.com/static/15a31e3d98598b453765c67c5a810d50/3bf55/e56aa3b7-49b5-4f63-b9ec-3a3735887dfe_img_bg_parallax-min.avif)">
+                <div class="cd-hero__content cd-hero__content--full-width">
+                    <h2>Gentle Lemur® Pet Bed</h2>
+                    <p>No More Discomfort for Them,<br> No More Messes for You..</p>
+                    <a href="www.gentlelemur.com" class="cd-hero__btn">Shop</a>
+                    <a href="#0" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a>
+                </div> <!-- .cd-hero__content -->
+            </li>
+            <li class="cd-hero__slide js-cd-slide" style="background-image:url(https://assets.ca.karrotmarket.com/static/15a31e3d98598b453765c67c5a810d50/3bf55/e56aa3b7-49b5-4f63-b9ec-3a3735887dfe_img_bg_parallax-min.avif)">
+                <div class="cd-hero__content cd-hero__content--full-width">
+                    <h5>What is Karrot?</h5><br/>
+                    <h2>A vibrant marketplace</h2>
+                    <p>nurtured by your neighbours</p>
+                    <a href="#0" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a>
+                </div> <!-- .cd-hero__content -->
+
+                <div class="cd-hero__content cd-hero__content--half-width cd-hero__content--img">
+                    @* <img src="images/Karrot.png" alt="tech 1"> *@
+                </div> <!-- .cd-hero__content -->
+            </li>
+
+            <li class="cd-hero__slide js-cd-slide" style="background-image:url(https://assets.ca.karrotmarket.com/static/15a31e3d98598b453765c67c5a810d50/3bf55/e56aa3b7-49b5-4f63-b9ec-3a3735887dfe_img_bg_parallax-min.avif)">
+                <div class="cd-hero__content cd-hero__content--half-width cd-hero__content--img">
+                    <img src="../../images/Hammok.gif" alt="tech 2">
+                </div> <!-- .cd-hero__content -->
+
+                <div class="cd-hero__content cd-hero__content--half-width">
+                    <h2>Unprecedented comfort</h2>
+                    <p>
+                        Unique nest-like 3D structure<br>
+                        Orthopedically engineered
+                    </p>
+                    <a href="#0" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a>
+                </div> <!-- .cd-hero__content -->
+            </li>
+
+        </ul> <!-- .cd-hero__slider -->
+
+        <div class="cd-hero__nav js-cd-nav">
+            <nav>
+                <span class="cd-hero__marker cd-hero__marker--item-1 js-cd-marker"></span>
+
+                <ul>
+                    <li class="cd-selected">
+                        <a href="#0">Intro</a>
+                    </li>
+                    <li>
+                        <a href="#0">Tech 1</a>
+                    </li>
+                    <li>
+                        <a href="#0">Tech 2</a>
+                    </li>
+                </ul>
+            </nav>
+        </div> <!-- .cd-hero__nav -->
+    </section> <!-- .cd-hero -->
+    <!--FEATURE-->
+</div>
+
+<section class="main-product">
+    <div class="main-lists">
+        <h2 class="main-lists-title">What's popular right now</h2>
+        <div class="main-list-products">
+            <a href="/articles/403916" class="main-a">
+                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
+                     width="100%" height="100%" alt="hot-article" class="main-picture">
+                <div class="main-price">$100.00</div>
+                <div class="main-address">Financial District, Toronto</div>
+            </a>
+             <a href="/articles/403916" class="main-a">
+                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
+                     width="100%" height="100%" alt="hot-article" class="main-picture">
+                <div class="main-price">$100.00</div>
+                <div class="main-address">Financial District, Toronto</div>
+            </a>
+             <a href="/articles/403916" class="main-a">
+                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
+                     width="100%" height="100%" alt="hot-article" class="main-picture">
+                <div class="main-price">$100.00</div>
+                <div class="main-address">Financial District, Toronto</div>
+            </a>
+            <a href="/articles/403916" class="main-a">
+                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
+                     width="100%" height="100%" alt="hot-article" class="main-picture">
+                <div class="main-price">$100.00</div>
+                <div class="main-address">Financial District, Toronto</div>
+            </a>
+            <a href="/articles/403916" class="main-a">
+                <img src="https://dtxw8q4qct0d4.cloudfront.net/origin/article/202212/7039BC75CD87825B523D189731B9C13A5D7B0643FEF823EC7793C9D11E16D4D8.jpg?q=82&amp;s=300x300&amp;t=crop"
+                     width="100%" height="100%" alt="hot-article" class="main-picture">
+                <div class="main-price">$100.00</div>
+                <div class="main-address">Financial District, Toronto</div>
+            </a>
+            
+        </div>
+        <a href="/hot_articles" class="discover-more">Discover more</a>
+    </div>
+</section>
+<script src="~/js/hero.js" defer></script>
