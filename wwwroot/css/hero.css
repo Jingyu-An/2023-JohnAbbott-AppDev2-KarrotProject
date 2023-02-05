@@ -652,6 +652,13 @@ Primary style
     color: #212124;
     text-decoration: none;
 }
+.main-product-name{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    color: rgba(33, 33, 36, 0.52);
+    text-decoration: none;
+}
 .main-address{
     font-size: 0.75rem;
     font-family:  -apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";

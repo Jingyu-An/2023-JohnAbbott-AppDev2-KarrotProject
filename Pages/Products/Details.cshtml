@@ -93,10 +93,11 @@
 
 
 <div>
+    <a asp-page="../CartItems/Create" asp-route-id="@Model.Product.Id">Add Cart</a>
     @if (User.Identity.Name == Model.Product.Owner.UserName)
     {
-        <a asp-page="../CartItems/Create" asp-route-id="@Model.Product.Id">Add Cart</a>
-        <a asp-page="./Edit" asp-route-id="@Model.Product?.Id">Edit</a> 
+        <a asp-page="./Edit" asp-route-id="@Model.Product?.Id">Edit</a>
+        <a asp-page="./Delete" asp-route-id="@Model.Product?.Id">Delete</a>
     }
 
     <a asp-page="./Index">Back to List</a>
