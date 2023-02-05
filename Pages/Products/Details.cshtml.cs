@@ -30,7 +30,8 @@ namespace Karrot.Pages.Products
         public string CategoryName { get; set; }
         public string Address { get; set; }
 
-        [BindProperty(SupportsGet = true)] public int Id { get; set; }
+        [BindProperty(SupportsGet = true)] 
+        public int Id { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
