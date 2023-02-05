@@ -28,7 +28,7 @@ namespace Karrot.Pages.CartItems
 
         public Product Product { get; set; }
 
-        public async Task<IActionResult> OnGet(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || context.Products == null)
             {
@@ -88,7 +88,7 @@ namespace Karrot.Pages.CartItems
 
             var newCartItem = new CartItem
             {
-                CartQuantity = CartItem.CartQuantity, CartItemCreated = DateTime.Now,
+                CartQuantity = 1, CartItemCreated = DateTime.Now,
                 CartItemUser = user, CartItemProduct = product
             };
 
