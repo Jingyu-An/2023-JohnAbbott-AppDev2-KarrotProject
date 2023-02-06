@@ -20,13 +20,13 @@ namespace Karrot.Pages.Products
         }
 
         public IList<Product> Product { get;set; } = default!;
-        public List<Product> Addresses { get;set; } = default!;
+        // public List<Product> Addresses { get;set; } = default!;
+        // public List<Product> Category { get;set; } = default!;
         public async Task OnGetAsync()
         {
             if (_context.Products != null)
             {
-                Product = await _context.Products.ToListAsync();
-                Addresses = await _context.Products.Include("Address").ToListAsync();
+                Product = await _context.Products.Include("Address").Include("Category").ToListAsync();
             }
         }
     }
