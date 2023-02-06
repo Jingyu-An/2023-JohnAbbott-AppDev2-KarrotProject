@@ -54,7 +54,7 @@ namespace Karrot.Pages.CartItems
             // order.FirstName = 
             foreach (var item in CartItems)
             {
-                order.OrderItems.Add(new OrderItem { ProductId = item.CartItemProduct.Id });
+                // order.OrderItems.Add(new OrderItem { ProductId = item.CartItemProduct.Id });
 
             }
             context.Orders.Add(order);

@@ -902,3 +902,9 @@ a:hover {
 .form-check-input {
     box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1)!important;
 }
+
+.cart {
+    border: 3px solid orange; 
+    border-radius: 5px; 
+    padding: 0 3px;
+}
