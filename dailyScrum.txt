@@ -173,3 +173,31 @@ Hyunju
 3. -
 
 ======================================================================================================================================================================
+
+
+Monday, February 6, 2023:
+Daily Srum Meeting:
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+Patrick:
+1. Orders
+2. Plan until next scrum:
+	- Rating
+	
+3. Nothing yet
+
+Jingyu
+1. Order and testing
+2. Plan until next scrum:
+	- Testing/Debugging of UI
+3. -
+
+Hyunju
+1. Transaction, product detail page
+2. Plan until next scrum:
+	- API transaction
+3. -
+
+======================================================================================================================================================================

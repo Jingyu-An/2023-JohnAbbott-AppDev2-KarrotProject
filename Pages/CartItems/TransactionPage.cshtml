@@ -1,0 +1,24 @@
+@page
+@model Karrot.Pages.CartItems.TransactionPage
+@{
+    ViewData["Title"] = "TransactionPage";
+}
+
+<h1>@ViewData["Title"]</h1>
+@* asp-route-id="@Model.CartItemId" *@
+<form method="post">
+    <div>
+        @* <td>
+            <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true"
+                placeholder="name@example.com" />
+            <label asp-for="Input.UserName">User Name</label>
+            <span asp-validation-for="Input.UserName" class="text-danger"></span>
+        </td> *@
+        <td>
+            <input type="text" value="lastName" />
+        </td>
+        <td>
+            <button type="submit" class="btn btn-primary">Pay</button>
+        </td>
+    </div>
+</form>
