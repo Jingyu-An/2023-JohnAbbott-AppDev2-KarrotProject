@@ -40,7 +40,7 @@ namespace Karrot.Pages.Products
                 return NotFound();
             }
 
-            var product = await _context.Products.Include("Address").Include("Category")
+            var product = await _context.Products.Include("Owner").Include("Address").Include("Category")
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             Comments = await _context.Comments.Include("CommentUser").Include("CommentProduct").Where(c => c.CommentProduct.Id == Id).ToListAsync();
