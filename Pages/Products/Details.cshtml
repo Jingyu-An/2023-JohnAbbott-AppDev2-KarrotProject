@@ -104,7 +104,7 @@
                                         <p class="mb-1">@comment.CommentBody</p>
                                         @if (User.Identity.Name == comment.CommentUser.UserName)
                                         {
-                                            <a asp-page="./CommentDelete" asp-route-id="@comment.CommentId">Delete</a>
+                                            <a class="rate" asp-page="./CommentDelete" asp-route-id="@comment.CommentId">Delete<i class="bi bi-trash"></i></a>
                                         }
                                     </div>
                                 }
