@@ -32,7 +32,7 @@ namespace Karrot.Pages.CartItems
         {
             if (context.CartItems != null)
             {
-                CartItems = await context.CartItems.Include("CartItemProduct").ToListAsync();
+                CartItems = await context.CartItems.Include("CartItemUser").Include("CartItemProduct").ToListAsync();
             }
         }
         

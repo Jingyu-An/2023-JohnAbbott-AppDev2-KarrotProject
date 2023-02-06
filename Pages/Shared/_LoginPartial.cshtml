@@ -27,28 +27,28 @@
             </a>
         </li>
         <li class="nav-item">
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
-                  asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0 bold">Logout</button>
-            </form>
-        </li>
-        <li class="nav-item bold">
-            <a class="nav-link" id="test" asp-area="" asp-page="/CartItems/Index">
-                Cart(
+            <a class="nav-link" id="cartitems" asp-area="" asp-page="/CartItems/Index">
+                <strong>Cart</strong>(
                 @{ if (cartItems != null)
                        @(cartItems.Count()) 
                 }
                 )
             </a>
         </li>
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline link-primary" asp-area="Identity" asp-page="/Account/Logout"
+                  asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0 bold">Logout</button>
+            </form>
+        </li>
     }
     else
     {
-        <li class="nav-item ">
-            <a class="nav-link bold" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <li class="nav-item bold">
+            <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link bold" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <li class="nav-item bold">
+            <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
     }
 </ul>

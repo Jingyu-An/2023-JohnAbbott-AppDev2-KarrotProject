@@ -1,5 +1,8 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    lang="en" data-seed="light-only"
+    >
 
 <head>
     <meta charset="utf-8" />
@@ -7,7 +10,7 @@
     <title>@ViewData["Title"] - Karrot</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Karrot.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Karrot.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/chat.css" asp-append-version="true"/>
     <link href="https://fonts.googleapis.com/css2?family=Gilroy:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -23,10 +26,9 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-
-                <div class="icon navbar-brand" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div class="icon navbar-brand">
                     <a asp-area="" asp-page="/Index">
-                        <svg viewBox="0 0 97 28">
+                        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 28" width="97" >
                             <path
                                 d="M7.946 8.732a7.944 7.944 0 0 0-7.923 8.49l.008.105a7.9 7.9 0 0 0 .935 3.143c1.728 3.29 5.29 5.298 6.537 5.925.281.14.608.14.887 0 1.248-.627 4.81-2.635 6.537-5.924a7.897 7.897 0 0 0 .936-3.147l.007-.099a7.943 7.943 0 0 0-7.923-8.493Zm0 10.902a2.98 2.98 0 1 1 0-5.958 2.98 2.98 0 0 1 0 5.958Z"
                                 fill="#FF7E36"></path>
@@ -48,21 +50,19 @@
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item bold">
-                            <a class="nav-link" id="home" asp-area="" asp-page="/Index">Browse</a>
+                            <a class="nav-link" id="" asp-area="" asp-page="/Index">Browse</a>
                         </li>
                         <li class="nav-item bold">
-                            <a class="nav-link" id="home" asp-area="" asp-page="/Products/Index">Products</a>
+                            <a class="nav-link" id="products" asp-area="" asp-page="/Products/Index">Products</a>
+                        </li>
+                        <li class="nav-item bold">
+                            <a class="nav-link" id="registersuccess" asp-area="" asp-page="/RegisterSuccess">Test</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial"></partial>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item bold">
-                            <a class="nav-link" id="test" asp-area="" asp-page="/RegisterSuccess">Test</a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </nav>
@@ -98,8 +98,13 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
-        const currentPage = window.location.pathname.split('/').pop().toLowerCase() || 'home';
-        const currentLink = document.querySelector('.nav-link#' + currentPage);
+        let currentPage = window.location.pathname.split('/').pop().toLowerCase();
+        if (currentPage) {
+            currentPage = "#" + currentPage;
+        }
+        console.log(currentPage)
+        const currentLink = document.querySelector(".nav-link" + currentPage)
+        console.log(currentLink)
         if (currentLink) currentLink.classList.add('active');
     </script>
 
