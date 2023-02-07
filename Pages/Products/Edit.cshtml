@@ -13,11 +13,11 @@
 
 <h4>Product</h4>
 <hr/>
-<div class="row">
-    <div class="col-md-4">
+<div class="row justify-content-center">
+    <div class="col-md-8">
         <div class="text-center" style="padding-bottom: 40px">
             <img id="productImage" src="@Model.Product.Image" alt=""
-                 style="max-height: 500px; width: auto;"/>
+                 style="max-height: 400px; width: auto; height: auto"/>
         </div>
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -79,14 +79,16 @@
                 </select>
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
+            <div class="form-group text-center">
+                <input type="submit" value="Save" class="btn btn-lg btn-primary"/>
+                <a class="btn btn-lg btn-danger" asp-area="Identity" asp-page="/Account/Manage/Products">Cancel</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
+
+<div class="back-to-list">
     <a asp-page="./Index">Back to List</a>
 </div>
 

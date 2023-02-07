@@ -19,6 +19,7 @@ namespace Karrot.Pages.Products
             _context = context;
         }
 
+        public string ReturnUrl { get; set; }
         public IList<Product> Product { get;set; } = default!;
         // public List<Product> Addresses { get;set; } = default!;
         // public List<Product> Category { get;set; } = default!;
@@ -28,6 +29,8 @@ namespace Karrot.Pages.Products
             {
                 Product = await _context.Products.Include("Address").Include("Category").ToListAsync();
             }
+
+            ReturnUrl = "/Products/Index";
         }
     }
 }

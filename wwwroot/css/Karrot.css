@@ -927,3 +927,7 @@ a:hover {
     font-size: 17px;
     font-weight: bold;
 }
+
+.back-to-list {
+    text-align: right;
+}

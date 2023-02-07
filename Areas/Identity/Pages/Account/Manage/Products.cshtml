@@ -1,0 +1,57 @@
+@page
+@using Karrot.Models
+@model Karrot.Areas.Identity.Pages.Account.Manage.ProductsModel
+
+@{
+    ViewData["Title"] = "Manage Products";
+    ViewData["ActivePage"] = ManageNavPages.PageNavClass;
+}
+
+<h3>@ViewData["Title"]</h3>
+<div class="row justify-content-end">
+    <div class="col-3">
+        <a class="btn btn-primary" asp-page="/Products/Create" 
+           asp-route-returnUrl="@Model.ReturnUrl">Create New</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Products[0].ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Products[0].ProductDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Products[0].ProductPrice)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Products)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPrice)
+            </td>
+            <td>
+                <a class="btn btn-outline-primary bold" asp-page="/Products/Edit" asp-route-id="@item.Id">Edit</a>
+                <a class="btn btn-outline-primary bold" asp-page="/Products/Details" asp-route-id="@item.Id">Details</a>
+                <a class="btn btn-outline-danger bold" asp-page="/Products/Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

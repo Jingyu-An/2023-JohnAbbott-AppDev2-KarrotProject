@@ -33,9 +33,15 @@
         </li>
     }
     <li class="nav-item">
-        <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext) text-color"
-           id="personal-data" asp-page="./Address">
+        <a class="nav-link @ManageNavPages.PageNavClass(ViewContext, "address") text-color"
+           id="address" asp-page="./Address">
             <strong>Address</strong>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.PageNavClass(ViewContext, "products") text-color"
+           id="products" asp-page="./Products">
+            <strong>Products</strong>
         </a>
     </li>
 </ul>

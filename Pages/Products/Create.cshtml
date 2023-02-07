@@ -58,13 +58,13 @@
             </div>
             <div class="form-group text-center">
                 <input type="submit" value="Create" class="btn btn-lg btn-primary"/>
-                <a class="btn btn-lg btn-danger" asp-area="" asp-page="/Products/Index">Cancel</a>
+                <a class="btn btn-lg btn-danger" asp-area="@Model.ReturnIdentity" asp-page="@Model.ReturnUrl">Cancel</a>
             </div>
         </form>
     </div>
 </div>
 
-<div style="text-align: right">
+<div class="back-to-list">
     <a asp-page="./Index">Back to List</a>
 </div>
 

@@ -40,13 +40,16 @@ namespace Karrot.Pages.Products
         [BindProperty, Required] public double Price { get; set; }
 
         [BindProperty, Required] public IFormFile Image { get; set; }
-        
+
         [BindProperty, Required] public int Category { get; set; }
         [BindProperty, Required] public int Address { get; set; }
         public List<Category>? Categories { get; set; }
         public List<Address>? Addresses { get; set; }
 
-        public async Task OnGetAsync()
+        public string ReturnIdentity { get; set; }
+        public string ReturnUrl { get; set; }
+
+        public async Task OnGetAsync(string returnUrl)
         {
             if (context.Categories != null)
             {
@@ -57,6 +60,14 @@ namespace Karrot.Pages.Products
             {
                 Addresses = await context.Address.Where(u => u.User.UserName == User.Identity.Name).ToListAsync();
             }
+
+            ReturnUrl = returnUrl;
+            if (returnUrl.Contains("Account"))
+            {
+                ReturnIdentity = "Identity";
+            }
+
+            logger.LogInformation("URL : " + ReturnUrl);
         }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -83,11 +94,13 @@ namespace Karrot.Pages.Products
                 }
 
                 var invalids = Path.GetInvalidPathChars();
-                var newFileName = String.Join("_", Image.FileName.Split(invalids, StringSplitOptions.RemoveEmptyEntries))
+                var newFileName = String
+                    .Join("_", Image.FileName.Split(invalids, StringSplitOptions.RemoveEmptyEntries))
                     .TrimEnd('.');
-                
-                var uploadFileName = User.Identity.Name + "_" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss-fff") + "_" + newFileName;
-                
+
+                var uploadFileName = User.Identity.Name + "_" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss-fff") + "_" +
+                                     newFileName;
+
                 var container = new BlobContainerClient(storageConnectionString, storageContainerName);
                 try
                 {
@@ -97,6 +110,7 @@ namespace Karrot.Pages.Products
                     {
                         await blob.UploadAsync(data);
                     }
+
                     url = blob.Uri.ToString();
                 }
                 catch (Exception e)
@@ -110,7 +124,7 @@ namespace Karrot.Pages.Products
             var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
             var category = context.Categories.Where(c => c.CategoryId == Category).FirstOrDefault();
             var address = context.Address.Where(a => a.AddressId == Address).FirstOrDefault();
-            
+
             var newProduct = new Product
             {
                 Owner = user, ProductName = Name, ProductDescription = Description, Image = url,
