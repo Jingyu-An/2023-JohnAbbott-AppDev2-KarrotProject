@@ -6,80 +6,112 @@
     ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
     double Total = 0;
+    double QST = 0;
+    double GST = 0;
 }
 
 <h1>Index</h1>
 
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CartItems[0].CartItemProduct.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CartItems[0].CartItemProduct.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CartItems[0].CartItemProduct.ProductPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CartItems[0].CartQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CartItems[0].CartItemCreated)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CartItems[0].CartItemProduct.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CartItems[0].CartItemProduct.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CartItems[0].CartItemProduct.ProductPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CartItems[0].CartQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CartItems[0].CartItemCreated)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.CartItems)
-        {
+    @foreach (var item in Model.CartItems)
+    {
         if (item.CartItemUser.UserName == User.Identity.Name)
         {
-                <form method="post">
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CartItemProduct.ProductName)
-                        </td>
-                        <td>
-                            <img src="@item.CartItemProduct.Image" alt="" height="50px" />
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CartItemProduct.ProductPrice)
-                        </td>
-                        <td>
-                            <input asp-for="CartItemId" value="@item.CartItemId" hidden="hidden" />
-                            <input asp-for="CartQuantity" value="@item.CartQuantity" />
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CartItemCreated)
-                        </td>
-                        <td>
-                            <input type="submit" value="Update" class="btn btn-primary" />
-                            <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.CartItemId">Delete</a>
-                        </td>
+            <form method="post">
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CartItemProduct.ProductName)
+                    </td>
+                    <td>
+                        <img src="@item.CartItemProduct.Image" alt="" height="50px"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CartItemProduct.ProductPrice)
+                    </td>
+                    <td>
+                        <input asp-for="CartItemId" value="@item.CartItemId" hidden="hidden"/>
+                        <input asp-for="CartQuantity" value="@item.CartQuantity"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CartItemCreated)
+                    </td>
+                    <td>
+                        <input type="submit" value="Update" class="btn btn-primary"/>
+                        <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.CartItemId">Delete</a>
+                    </td>
 
-                    </tr>
-                    @{
-                        Total = Total + (item.CartQuantity * item.CartItemProduct.ProductPrice);
-                    }
-                </form>
-            }
+                </tr>
+                @{
+                    Total = Total + (item.CartQuantity * item.CartItemProduct.ProductPrice);
+                }
+            </form>
+        }
     }
     </tbody>
 </table>
-
-<td>
-    @* <input type="submit" value="Checkout" class="btn btn-primary" /> asp-route-id="@Model.CartItemId" *@
-    <a class="btn btn-danger" asp-page="./TransactionPage">Checkout</a>
-</td>
-<div>
-    <dl class="row">
-        <dt class="col-sm-2">
-            Total
-        </dt>
-        <dd class="col-sm-10">
-            @(Total.ToString("C"))
-        </dd>
-    </dl>
-</div>
+@if (Model.CartItems.Count > 0)
+{
+    <div class="container">
+        <dl class="row justify-content-lg-center">
+            <dt class="col-2 bold border-end">
+                Total
+            </dt>
+            <dd class="col-2">
+                @(Total.ToString("C"))
+            </dd>
+        </dl>
+        <dl class="row justify-content-lg-center">
+            <dt class="col-2 bold border-end">
+                QST
+            </dt>
+            <dd class="col-2">
+                @{ QST = Total * 0.09975; }
+                @(QST.ToString("C"))
+            </dd>
+        </dl>
+        <dl class="row justify-content-lg-center">
+            <dt class="col-2 bold border-end">
+                GST
+            </dt>
+            <dd class="col-2">
+                @{ GST = Total * 0.05; }
+                @(GST.ToString("C"))
+            </dd>
+        </dl>
+        <dl class="row justify-content-lg-center">
+            <dt class="col-2 bold border-end">
+                Totla After Taxes
+            </dt>
+            <dd class="col-2">
+                @((Total + QST + GST).ToString("C"))
+            </dd>
+        </dl>
+        <dl class="row justify-content-lg-center">
+            <dt class="col-3">
+                <a class="btn btn-outline-primary bold" asp-page="./TransactionPage">Checkout</a>
+                <a class="btn btn-outline-danger bold" asp-page="./DeleteAll">Clear Cart</a>
+            </dt>
+        </dl>
+    </div>
+}

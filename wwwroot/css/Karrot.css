@@ -833,7 +833,7 @@
     src: url(https://assets.ca.karrotmarket.com/static/Gilroy-Bold-b368f174a8b7ecf820e78b7fd0fdb62c.woff2)
 }
 
-.nav-pills .nav-link .active {
+.nav-pills .nav-link.active {
     color: #fff;
     background-color: #ff6f0f !important;
     border-color: #ff6f0f !important;
@@ -885,7 +885,6 @@ a.text-color:hover {
     border: #e96017 1px solid;
     box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
     font-family: 'Gilroy', sans-serif;
-
 }
 
 .btn-primary:hover {
