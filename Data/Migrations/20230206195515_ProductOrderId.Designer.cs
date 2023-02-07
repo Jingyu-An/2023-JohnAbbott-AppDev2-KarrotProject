@@ -4,6 +4,7 @@ using Karrot.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Karrot.Data.Migrations
 {
     [DbContext(typeof(KarrotDbContext))]
-    partial class KarrotDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230206195515_ProductOrderId")]
+    partial class ProductOrderId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,13 +306,7 @@ namespace Karrot.Data.Migrations
 
             modelBuilder.Entity("Karrot.Models.Rating", b =>
                 {
-                    b.Property<int>("RatingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RatingId"));
-
-                    b.Property<string>("RatedSellerId")
+                    b.Property<string>("RatingId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("RatingCreated")
@@ -322,8 +319,6 @@ namespace Karrot.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("RatingId");
-
-                    b.HasIndex("RatedSellerId");
 
                     b.HasIndex("RatingUserId");
 
@@ -636,15 +631,9 @@ namespace Karrot.Data.Migrations
 
             modelBuilder.Entity("Karrot.Models.Rating", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "RatedSeller")
-                        .WithMany()
-                        .HasForeignKey("RatedSellerId");
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "RatingUser")
                         .WithMany()
                         .HasForeignKey("RatingUserId");
-
-                    b.Navigation("RatedSeller");
 
                     b.Navigation("RatingUser");
                 });

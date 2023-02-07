@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Karrot.Data;
 using Karrot.Models;
 using System.Security.Claims;
+using System.ComponentModel.DataAnnotations;
 
 namespace Karrot.Pages.CartItems
 {
@@ -27,6 +28,18 @@ namespace Karrot.Pages.CartItems
         // public int CartItemId { get; set; }
         public IList<CartItem> CartItems { get; set; } = default!;
 
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+        public class InputModel
+        {
+            [Required]
+            public string firstName {get;set;}
+            [Required]
+            public string lastName {get;set;}
+        }
+
+
         public async Task OnGetAsync()
         {
             if (context.CartItems != null)
@@ -37,6 +50,7 @@ namespace Karrot.Pages.CartItems
 
         public async Task<IActionResult> OnPostAsync()
         {
+
 
             var userName = User.Identity.Name;
             var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
@@ -49,17 +63,25 @@ namespace Karrot.Pages.CartItems
             order.City = address.City;
             order.State = address.State;
             order.Country = address.Country;
+            order.PostalCode = address.PostalCode;
             order.Email = user.Email;
             order.Phone = user.PhoneNumber;
-            // order.FirstName = 
+            order.FirstName = Input.firstName;
+            order.LastName = Input.lastName;
+            order.PaymentTransactionId = "1";
             foreach (var item in CartItems)
             {
-                // order.OrderItems.Add(new OrderItem { ProductId = item.CartItemProduct.Id });
+                order.OrderItems.Add(new OrderItem {  
+                    Product  = item.CartItemProduct,
+                    OrderQuantity = item.CartQuantity,
+                });
 
             }
             context.Orders.Add(order);
+            context.CartItems.RemoveRange(CartItems);
+
             await context.SaveChangesAsync();
-            return Redirect("/");
+            return RedirectToPage("OrderSummary",new { Id = order.OrderId });
         }
 
 

@@ -1,0 +1,20 @@
+@page 
+@model Karrot.Pages.CartItems.Rating
+@{
+    ViewData["Title"] = "Rating";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div>
+    <form method="post" asp-page="Rating" asp-route-orderId="@Model.OrderId" asp-route-sellerId="@Model.SellerId">
+        <td>
+            <input asp-for="Input.Rating" class="form-control" autocomplete="firstName" aria-required="true"
+                placeholder="Rate Seller" />
+            <label asp-for="Input.Rating">Rate Seller</label>
+            <span asp-validation-for="Input.Rating" class="text-danger"></span>
+        </td>
+        <td>
+            <button type="submit" class="btn btn-primary">Rate Seller</button>
+        </td>
+    </form>
+</div>

@@ -4,6 +4,7 @@ using Karrot.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Karrot.Data.Migrations
 {
     [DbContext(typeof(KarrotDbContext))]
-    partial class KarrotDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230206214134_RatingIdAdjustment")]
+    partial class RatingIdAdjustment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,11 +306,11 @@ namespace Karrot.Data.Migrations
 
             modelBuilder.Entity("Karrot.Models.Rating", b =>
                 {
-                    b.Property<int>("RatingId")
+                    b.Property<int>("RatingId2")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RatingId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RatingId2"));
 
                     b.Property<string>("RatedSellerId")
                         .HasColumnType("nvarchar(450)");
@@ -321,7 +324,7 @@ namespace Karrot.Data.Migrations
                     b.Property<int>("RatingValue")
                         .HasColumnType("int");
 
-                    b.HasKey("RatingId");
+                    b.HasKey("RatingId2");
 
                     b.HasIndex("RatedSellerId");
 

@@ -1,0 +1,42 @@
+@page "{id:int}"
+@using System.Linq
+
+@model Karrot.Pages.CartItems.OrderSummary
+@{
+    ViewData["Title"] = "OrderSummary";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+
+<div class="row">
+    <div class="md-6">
+        <h4>Details: </h4>
+        Date: @Model.Order.OrderDate
+    </div>
+    <div class="md-6">
+        <h4>Items by seller: </h4>
+        @foreach (var sellerWithItems in Model.Order.OrderItems.GroupBy(x => x.Product.Owner.Id))
+        {
+            <div>
+                @{
+                    var owner = sellerWithItems.First().Product.Owner;
+                }
+
+                Your products from @owner.Email
+                <a asp-page="Rating" asp-route-orderId="@Model.Id" asp-route-sellerId="@owner.Id">Rate</a>
+
+                <ul>
+                    @foreach (var product in sellerWithItems)
+                    {
+                        <li>@product.Product.ProductName: @product.OrderQuantity
+
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+
+</div>
