@@ -12,18 +12,19 @@ using Microsoft.AspNetCore.Authorization;
 namespace Karrot.Areas.Identity.Pages.Account.Manage
 {
     [Authorize]
-    public class ProductsModel : PageModel
+    public class CommentsModel : PageModel
     {
         private readonly KarrotDbContext context;
+        private readonly ILogger<CommentsModel> logger;
 
-        public ProductsModel(KarrotDbContext context)
+        public CommentsModel(KarrotDbContext context, ILogger<CommentsModel> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public string Role { get; set; }
-        public string ReturnUrl { get; set; }
-        public IList<Product> Products { get; set; } = default!;
+        public IList<Comment> Comments { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
@@ -36,15 +37,14 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage
             {
                 if (role.Name == "Admin")
                 {
-                    Products = await context.Products.Include("Owner").ToListAsync();
+                    Comments = await context.Comments.Include("CommentUser").Include("CommentProduct").ToListAsync();
                 }
                 else
                 {
-                    Products = await context.Products.Where(u => u.Owner.UserName == User.Identity.Name).ToListAsync();
+                    Comments = await context.Comments.Include("CommentProduct")
+                        .Where(u => u.CommentUser.UserName == User.Identity.Name).ToListAsync();
                 }
             }
-
-            ReturnUrl = "/Account/Manage/Products";
         }
     }
 }

@@ -1,0 +1,62 @@
+@page
+@using Karrot.Models
+@model Karrot.Areas.Identity.Pages.Account.Manage.CommentsModel
+
+@{
+    ViewData["Title"] = "Manage Comments";
+    ViewData["ActivePage"] = ManageNavPages.PageNavClass;
+}
+
+<h3>@ViewData["Title"]</h3>
+<table class="table">
+    <thead>
+    <tr>
+        @if (Model.Role == "Admin")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Comments[0].CommentUser.UserName)
+            </th>
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.Comments[0].CommentProduct.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments[0].CommentBody)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments[0].CommentCreated)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Comments)
+    {
+        <tr>
+            @if (Model.Role == "Admin")
+            {
+                <th>
+                    @Html.DisplayFor(modelItem => item.CommentUser.UserName)
+                </th>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentProduct.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentBody)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentCreated)
+            </td>
+            <td>
+                <a class="btn btn-outline-primary bold" asp-page="/Products/Details" asp-route-id="@item.CommentProduct.Id">Detail</a>
+                <a class="btn btn-outline-danger bold" asp-page="/Products/CommentDelete" asp-route-id="@item.CommentId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

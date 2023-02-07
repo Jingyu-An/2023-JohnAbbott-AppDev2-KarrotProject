@@ -10,13 +10,21 @@
 <h3>@ViewData["Title"]</h3>
 <div class="row justify-content-end">
     <div class="col-3">
-        <a class="btn btn-primary" asp-page="/Products/Create" 
-           asp-route-returnUrl="@Model.ReturnUrl">Create New</a>
+        <a class="btn btn-primary" asp-page="/Products/Create"
+           asp-route-returnUrl="@Model.ReturnUrl">
+            Create New
+        </a>
     </div>
 </div>
 <table class="table">
     <thead>
     <tr>
+        @if (Model.Role == "Admin")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Owner.UserName)
+            </th>
+        }
         <th>
             @Html.DisplayNameFor(model => model.Products[0].ProductName)
         </th>
@@ -33,6 +41,12 @@
     @foreach (var item in Model.Products)
     {
         <tr>
+            @if (Model.Role == "Admin")
+            {
+                <th>
+                    @Html.DisplayFor(modelItem => item.Owner.UserName)
+                </th>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.ProductName)
             </td>
