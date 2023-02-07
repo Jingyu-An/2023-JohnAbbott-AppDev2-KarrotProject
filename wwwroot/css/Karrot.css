@@ -868,6 +868,17 @@ a.text-color:hover {
     --black: #your-black-color;
 }
 
+.btn-outline-primary {
+    color: #e96017;
+    border-color: #e96017
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #e96017;
+    border-color: #e96017
+}
+
 .btn-primary {
     color: var(--btn-primary-color);
     background-color: var(--btn-primary-bg-color);
@@ -907,4 +918,13 @@ a:hover {
     border: 3px solid orange; 
     border-radius: 5px; 
     padding: 0 3px;
+}
+
+.form-margin {
+    margin: 15px;
+}
+
+.form-label-font {
+    font-size: 17px;
+    font-weight: bold;
 }

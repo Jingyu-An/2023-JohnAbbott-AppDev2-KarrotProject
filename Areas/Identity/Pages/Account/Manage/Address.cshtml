@@ -9,7 +9,7 @@
 
 <h3>@ViewData["Title"]</h3>
 <p>
-    <a asp-page="./Addresses/Create">Create New</a>
+    <a class="btn btn-primary" asp-page="./Addresses/Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -50,9 +50,9 @@
                 @Html.DisplayFor(modelItem => item.PostalCode)
             </td>
             <td>
-                <a asp-page="./Addresses/Edit" asp-route-id="@item.AddressId">Edit</a> 
-                <a asp-page="./Addresses/Details" asp-route-id="@item.AddressId">Details</a>
-                <a asp-page="./Addresses/Delete" asp-route-id="@item.AddressId">Delete</a>
+                <a class="btn btn-outline-primary" asp-page="./Addresses/Edit" asp-route-id="@item.AddressId">Edit</a> 
+                <a class="btn btn-outline-primary" asp-page="./Addresses/Details" asp-route-id="@item.AddressId">Details</a>
+                <a class="btn btn-outline-primary" asp-page="./Addresses/Delete" asp-route-id="@item.AddressId">Delete</a>
             </td>
         </tr>
     }
