@@ -12,7 +12,7 @@ public class Address
     [StringLength(70)]
     public string AddressLine1 { get; set; }
     
-    public string AddressLine2 { get; set; }
+    public string? AddressLine2 { get; set; }
 
     [Required(ErrorMessage = "City is required")]
     [StringLength(40)]

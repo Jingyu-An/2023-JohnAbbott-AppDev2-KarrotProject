@@ -52,6 +52,8 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
             [Required]
             public string PostalCode { get; set; }
 
+            [Required]
+            public string Country { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -59,27 +61,72 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
             var userId = _userManager.GetUserId(User);
             var address = await _context.Address.FirstOrDefaultAsync(x => x.User.Id == userId);
 
-
-            Input = new InputModel
+            if (address != null)
             {
-                Address = address.AddressLine1,
-                City = address.City,
-                State = address.State,
-                PostalCode = address.PostalCode
-            };
+                Input = new InputModel
+                {
+                    Address = address.AddressLine1,
+                    City = address.City,
+                    State = address.State,
+                    PostalCode = address.PostalCode,
+                    Country = address.Country
+                };
+            }
+            else
+            {
+                Input = new InputModel
+                {
+                    Address = "",
+                    City = "",
+                    State = "",
+                    PostalCode = "",
+                    Country = ""
+                };
+            }
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostUpdateAsync()
+        {
+
+
+            var userId = _userManager.GetUserId(User);
+            var address = await _context.Address.FirstOrDefaultAsync(x => x.User.Id == userId);
+            if (address == null)
+            {
+                address = new Address
+                {
+                    AddressLine1 = Input.Address,
+                    City = Input.City,
+                    State = Input.State,
+                    PostalCode = Input.PostalCode,
+                    Country = Input.Country,
+                    User = await _userManager.GetUserAsync(User)
+                };
+
+                _context.Address.Add(address);
+            }
+            else
+            {
+
+                address.AddressLine1 = Input.Address;
+                address.City = Input.City;
+                address.State = Input.State;
+                address.PostalCode = Input.PostalCode;
+                address.Country = Input.Country;
+            }
+            await _context.SaveChangesAsync();
+            return Page();
+
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync()
         {
             var userId = _userManager.GetUserId(User);
             var address = await _context.Address.FirstOrDefaultAsync(x => x.User.Id == userId);
 
-            address.AddressLine1 = Input.Address;
-            address.City = Input.City;
-            address.State = Input.State;
-            address.PostalCode = Input.PostalCode;
-
+            _context.Remove(address);
             await _context.SaveChangesAsync();
             return Page();
         }
