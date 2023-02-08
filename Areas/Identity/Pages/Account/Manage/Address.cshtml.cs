@@ -1,4 +1,3 @@
-
 #nullable disable
 
 using System;
@@ -28,32 +27,27 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             KarrotDbContext context,
-        ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _context = context;
         }
-        [BindProperty]
-        public InputModel Input { get; set; }
+
+        [BindProperty] public InputModel Input { get; set; }
 
         public class InputModel
         {
-            [Required]
-            public string Address { get; set; }
+            [Required] public string Address { get; set; }
 
-            [Required]
-            public string City { get; set; }
+            [Required] public string City { get; set; }
 
-            [Required]
-            public string State { get; set; }
-
-            [Required]
-            public string PostalCode { get; set; }
+            [Required] public string State { get; set; }
 
             [Required]
             public string Country { get; set; }
+            [Required] public string PostalCode { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -72,17 +66,7 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
                     Country = address.Country
                 };
             }
-            else
-            {
-                Input = new InputModel
-                {
-                    Address = "",
-                    City = "",
-                    State = "",
-                    PostalCode = "",
-                    Country = ""
-                };
-            }
+
 
             return Page();
         }
@@ -98,6 +82,7 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
                 address = new Address
                 {
                     AddressLine1 = Input.Address,
+                    AddressLine2 = "-",
                     City = Input.City,
                     State = Input.State,
                     PostalCode = Input.PostalCode,
@@ -124,13 +109,33 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
         public async Task<IActionResult> OnPostDeleteAsync()
         {
             var userId = _userManager.GetUserId(User);
+            var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
             var address = await _context.Address.FirstOrDefaultAsync(x => x.User.Id == userId);
 
+            // if (address == null)
+            // {
+            //     address = new Address()
+            //     {
+            //         AddressLine1 = Input.Address,
+            //         City = Input.City,
+            //         State = Input.State,
+            //         PostalCode = Input.PostalCode,
+            //         Country = Input.Country,
+            //         User = await _userManager.GetUserAsync(User)
+            //     };
+            //     _context.Address.Add(address);
+            // }
+            // else
+            // {
+            //     address.AddressLine1 = Input.Address;
+            //     address.City = Input.City;
+            //     address.State = Input.State;
+            //     address.PostalCode = Input.PostalCode;
+            //     address.Country = Input.Country;
+            // }
             _context.Remove(address);
             await _context.SaveChangesAsync();
             return Page();
         }
-
-
     }
 }

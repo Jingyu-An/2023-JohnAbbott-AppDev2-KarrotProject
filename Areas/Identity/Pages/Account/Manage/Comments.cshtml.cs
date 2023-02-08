@@ -23,19 +23,13 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage
             this.logger = logger;
         }
 
-        public string Role { get; set; }
         public IList<Comment> Comments { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            var userName = User.Identity.Name;
-            var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
-            var roleId = context.UserRoles.Where(r => r.UserId == user.Id).FirstOrDefault();
-            var role = context.Roles.Where(r => r.Id == roleId.RoleId).FirstOrDefault();
-            Role = role.Name;
             if (context.Address != null)
             {
-                if (role.Name == "Admin")
+                if (User.IsInRole("Admin"))
                 {
                     Comments = await context.Comments.Include("CommentUser").Include("CommentProduct").ToListAsync();
                 }

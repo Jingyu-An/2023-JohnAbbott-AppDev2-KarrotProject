@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Identity;
 
 namespace Karrot.Models;
@@ -10,9 +11,11 @@ public class Address
     
     [Required(ErrorMessage = "Address is required")]
     [StringLength(70)]
+    [AllowNull]
     public string AddressLine1 { get; set; }
     
-    public string? AddressLine2 { get; set; }
+    [AllowNull]
+    public string AddressLine2 { get; set; }
 
     [Required(ErrorMessage = "City is required")]
     [StringLength(40)]

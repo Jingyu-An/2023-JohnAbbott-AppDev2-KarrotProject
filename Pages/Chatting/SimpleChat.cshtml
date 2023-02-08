@@ -5,7 +5,9 @@
 @{
     ViewData["Title"] = "CHAT";
 }
-
+<head>
+        <link rel="stylesheet" href="~/css/chat.css" asp-append-version="true" />
+</head>
 <input type="text" id="userInput" value=@User.Identity.Name hidden/>
 
 <div class="chat_wrap">

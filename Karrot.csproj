@@ -34,4 +34,9 @@
     <Folder Include="Pages\Products" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="Pages\Chatting\SimpleChat.cshtml" />
+    <AdditionalFiles Include="Pages\GoogleMap\Map.cshtml" />
+  </ItemGroup>
+
 </Project>

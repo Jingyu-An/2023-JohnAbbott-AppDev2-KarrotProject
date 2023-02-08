@@ -21,20 +21,14 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage
             this.context = context;
         }
 
-        public string Role { get; set; }
         public string ReturnUrl { get; set; }
         public IList<Product> Products { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            var userName = User.Identity.Name;
-            var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
-            var roleId = context.UserRoles.Where(r => r.UserId == user.Id).FirstOrDefault();
-            var role = context.Roles.Where(r => r.Id == roleId.RoleId).FirstOrDefault();
-            Role = role.Name;
             if (context.Address != null)
             {
-                if (role.Name == "Admin")
+                if (User.IsInRole("Admin"))
                 {
                     Products = await context.Products.Include("Owner").ToListAsync();
                 }
