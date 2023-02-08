@@ -15,29 +15,26 @@ namespace Karrot.Pages.CartItems
     public class OrderSummary : PageModel
     {
         private readonly ILogger<OrderSummary> _logger;
-              private readonly KarrotDbContext _context;
-
+        private readonly KarrotDbContext _context;
 
 
         public OrderSummary(ILogger<OrderSummary> logger, KarrotDbContext context)
         {
             _logger = logger;
-            this._context = context;
+            _context = context;
         }
-
 
 
         public int Id { get; set; }
 
-        public Order Order {get; set;}
+        public Order Order { get; set; }
 
         public async Task OnGet(int id)
         {
             Id = id;
-                Order = await _context.Orders
-            .Include(x => x.OrderItems).ThenInclude(x => x.Product).ThenInclude(x => x.Owner)
-            .FirstAsync(x => x.OrderId == Id);
-
+            Order = await _context.Orders
+                .Include(x => x.OrderItems).ThenInclude(x => x.Product).ThenInclude(x => x.Owner)
+                .FirstAsync(x => x.OrderId == Id);
         }
     }
 }
