@@ -8,13 +8,13 @@ a.navbar-brand {
 }
 
 a {
-  color: #0077cc;
+  color: #313335;
 }
 
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-color: #afb2b6;
+  border-color: #111212;
 }
 
 .nav-pills .nav-link.active,
@@ -51,12 +51,7 @@ button.accept-policy {
   box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.customFooter {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  list-style-type: none;
-}
+
 
 
 .icon svg {
@@ -76,6 +71,5 @@ button.accept-policy {
   src: url('Gilroy-Regular.ttf') format('truetype');
   font-weight: bolder;
 } */
-
 
 
