@@ -1,67 +1,43 @@
 @page
 @using Karrot.Models
-@model Karrot.Areas.Identity.Pages.Account.Manage.Addresses.IndexModel
+@model Karrot.Areas.Identity.Pages.Account.Manage.Addresses.AddressModel
 
 @{
     ViewData["Title"] = "Manage Address";
-    ViewData["ActivePage"] = ManageNavPages.PageNavClass;
+
 }
 
-<h3>@ViewData["Title"]</h3>
-<div class="row justify-content-end">
-    <div class="col-3">
-        <a class="btn btn-primary" asp-page="./Addresses/Create">Create New</a>
+
+<div class="row">
+    <div>
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="form-floating mb-3 w-50">
+                <input asp-for="Input.Address" class="form-control" placeholder="Please enter your address." />
+                <label asp-for="Input.Address" class="form-label"></label>
+                <span asp-validation-for="Input.Address" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 w-50">
+                <input asp-for="Input.City" class="form-control" placeholder="Please enter your City." />
+                <label asp-for="Input.City" class="form-label"></label>
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 w-50">
+                <input asp-for="Input.State" class="form-control" placeholder="Please enter your State." />
+                <label asp-for="Input.State" class="form-label"></label>
+                <span asp-validation-for="Input.State" class="text-danger"></span>
+            </div>
+                        <div class="form-floating mb-3 w-50">
+                <input asp-for="Input.PostalCode" class="form-control" placeholder="Please enter your PostalCode."/>
+                <label asp-for="Input.PostalCode" class="form-label"></label>
+                <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+            </div>
+            <button id="update-profile-address" type="submit" class="w-50 btn btn-lg btn-primary">Save</button>
+        </form>
     </div>
 </div>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            Address
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address[0].City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address[0].State)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address[0].PostalCode)
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.Address)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine1)
-                @if (item.AddressLine2 != "-")
-                {
-                    @Html.DisplayFor(modelItem => item.AddressLine2)
-                }
-
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostalCode)
-            </td>
-            <td>
-                <a class="btn btn-outline-primary bold" asp-page="./Addresses/Edit" asp-route-id="@item.AddressId">Edit</a>
-                <a class="btn btn-outline-primary bold" asp-page="./Addresses/Details" asp-route-id="@item.AddressId">Details</a>
-                <a class="btn btn-outline-danger bold" asp-page="./Addresses/Delete" asp-route-id="@item.AddressId">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
 }
