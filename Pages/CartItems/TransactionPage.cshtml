@@ -1,29 +1,158 @@
 @page
 @model Karrot.Pages.CartItems.TransactionPage
+
 @{
-    ViewData["Title"] = "TransactionPage";
+    ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    double Total = 0;
+    double QST = 0;
+    double GST = 0;
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Index</h1>
 
-<form method="post">
-   
-        <td>
-            <input asp-for="Input.firstName" class="form-control" autocomplete="firstName" aria-required="true"
-                placeholder="First Name" />
-            <label asp-for="Input.firstName">First Name</label>
-            <span asp-validation-for="Input.firstName" class="text-danger"></span>
-        </td>
-   
-        <td>
-            <input asp-for="Input.lastName" class="form-control" autocomplete="firstName" aria-required="true"
-                placeholder="Last Name" />
-            <label asp-for="Input.lastName">Last Name</label>
-            <span asp-validation-for="Input.lastName" class="text-danger"></span>
-        </td>
-        <td>
-            <button type="submit" class="btn btn-primary">Pay</button>
-        </td>
- 
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CartItems[0].CartItemProduct.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CartItems[0].CartItemProduct.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CartItems[0].CartItemProduct.ProductPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CartItems[0].CartQuantity)
+        </th>
+        <th>
+            Amount
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.CartItems)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CartItemProduct.ProductName)
+            </td>
+            <td>
+                <img src="@item.CartItemProduct.Image" alt="" height="50px"/>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CartItemProduct.ProductPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CartQuantity)
+            </td>
+            <td>
+                @((item.CartQuantity * item.CartItemProduct.ProductPrice).ToString("C"))
+            </td>
+             @{Total = Total + (item.CartQuantity * item.CartItemProduct.ProductPrice);}
+        </tr>
+       
+    }
+    </tbody>
+</table>
+
+@if (Model.CartItems.Count > 0)
+{
+    <div class="container">
+        <dl class="row justify-content-lg-center">
+            <dt class="col-2 bold border-end">
+                Total
+            </dt>
+            <dd class="col-2">
+                @(Total.ToString("C"))
+            </dd>
+        </dl>
+        <dl class="row justify-content-lg-center">
+            <dt class="col-2 bold border-end">
+                QST
+            </dt>
+            <dd class="col-2">
+                @{ QST = Total * 0.09975; }
+                @(QST.ToString("C"))
+            </dd>
+        </dl>
+        <dl class="row justify-content-lg-center">
+            <dt class="col-2 bold border-end">
+                GST
+            </dt>
+            <dd class="col-2">
+                @{ GST = Total * 0.05; }
+                @(GST.ToString("C"))
+            </dd>
+        </dl>
+        <dl class="row justify-content-lg-center">
+            <dt class="col-2 bold border-end">
+                Totla After Taxes
+            </dt>
+            <dd class="col-2">
+                @((Total + QST + GST).ToString("C"))
+            </dd>
+        </dl>
+    </div>
+
+}
+    <section>
+        <div class="bt-drop-in-wrapper">
+            <div id="bt-dropin"></div>
+        </div>
+    </section>
+<form id="payment-form" method="post" asp-controller="Transaction" asp-action="Create">
+
+    <td>
+        <input asp-for="Input.firstName" class="form-control" autocomplete="firstName" aria-required="true"
+               placeholder="First Name"/>
+        <label asp-for="Input.firstName">First Name</label>
+        <span asp-validation-for="Input.firstName" class="text-danger"></span>
+    </td>
+
+    <td>
+        <input asp-for="Input.lastName" class="form-control" autocomplete="firstName" aria-required="true"
+               placeholder="Last Name"/>
+        <label asp-for="Input.lastName">Last Name</label>
+        <span asp-validation-for="Input.lastName" class="text-danger"></span>
+    </td>
+    <td>
+        <dl class="row justify-content-lg-center">
+            <dt class="col-3">
+                <button class="btn btn-success" type="submit">
+                    <span>Confirm payment $@Total</span>
+                </button>
+                <a class="btn btn-outline-danger bold" asp-page="./DeleteAll">Cancel</a>
+            </dt>
+        </dl>
+
+    </td>
+
 </form>
+
+
+<script src="https://js.braintreegateway.com/web/dropin/1.22.0/js/dropin.min.js"></script>
+<script>
+    var client_token = "@Model.Controller.ViewBag.ClientToken";
+    var form = document.querySelector('#payment-form');
+
+    braintree.dropin.create({
+        authorization: client_token,
+        container: '#bt-dropin'
+    }, function (createErr, instance) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            instance.requestPaymentMethod(function (err, payload) {
+                if (err) {
+                    return;
+                }
+              
+                document.querySelector('#nonce').value = payload.nonce;
+                form.submit();
+            });
+        });
+    });
+</script>
