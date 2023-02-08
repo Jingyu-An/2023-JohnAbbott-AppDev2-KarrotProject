@@ -1,4 +1,3 @@
-
 #nullable disable
 
 using System;
@@ -28,30 +27,25 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             KarrotDbContext context,
-        ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _context = context;
         }
-        [BindProperty]
-        public InputModel Input { get; set; }
+
+        [BindProperty] public InputModel Input { get; set; }
 
         public class InputModel
         {
-            [Required]
-            public string Address { get; set; }
+            [Required] public string Address { get; set; }
 
-            [Required]
-            public string City { get; set; }
+            [Required] public string City { get; set; }
 
-            [Required]
-            public string State { get; set; }
+            [Required] public string State { get; set; }
 
-            [Required]
-            public string PostalCode { get; set; }
-
+            [Required] public string PostalCode { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -59,31 +53,50 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
             var userId = _userManager.GetUserId(User);
             var address = await _context.Address.FirstOrDefaultAsync(x => x.User.Id == userId);
 
-
-            Input = new InputModel
+            if (address != null)
             {
-                Address = address.AddressLine1,
-                City = address.City,
-                State = address.State,
-                PostalCode = address.PostalCode
-            };
+                Input = new InputModel
+                {
+                    Address = address.AddressLine1,
+                    City = address.City,
+                    State = address.State,
+                    PostalCode = address.PostalCode
+                };
+            }
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             var userId = _userManager.GetUserId(User);
+            var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
             var address = await _context.Address.FirstOrDefaultAsync(x => x.User.Id == userId);
 
-            address.AddressLine1 = Input.Address;
-            address.City = Input.City;
-            address.State = Input.State;
-            address.PostalCode = Input.PostalCode;
+            if (address == null)
+            {
+                address = new Address()
+                {
+                    AddressLine1 = Input.Address,
+                    AddressLine2 = "-",
+                    City = Input.City,
+                    State = Input.State,
+                    Country = "Canada",
+                    PostalCode = Input.PostalCode,
+                    User = user
+                };
+                _context.Address.Add(address);
+            }
+            else
+            {
+                address.AddressLine1 = Input.Address;
+                address.City = Input.City;
+                address.State = Input.State;
+                address.PostalCode = Input.PostalCode;
+            }
 
             await _context.SaveChangesAsync();
             return Page();
         }
-
-
     }
 }
