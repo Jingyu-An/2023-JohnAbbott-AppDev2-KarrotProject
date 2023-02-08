@@ -50,4 +50,13 @@
             <strong>Comments</strong>
         </a>
     </li>
+    @if (User.IsInRole("Admin"))
+    {
+        <li class="nav-item">
+            <a class="nav-link @ManageNavPages.PageNavClass(ViewContext, "users") text-color"
+               id="users" asp-page="./Users">
+                <strong>Users</strong>
+            </a>
+        </li>
+    }
 </ul>

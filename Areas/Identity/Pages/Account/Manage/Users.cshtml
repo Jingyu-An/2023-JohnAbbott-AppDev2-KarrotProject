@@ -1,0 +1,64 @@
+@page
+@using Karrot.Models
+@using Microsoft.AspNetCore.Razor.Language
+@model Karrot.Areas.Identity.Pages.Account.Manage.UsersModel
+
+@{
+    ViewData["Title"] = "Manage Users";
+    ViewData["ActivePage"] = ManageNavPages.PageNavClass;
+}
+
+<h3>@ViewData["Title"]</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Users[0].UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Users[0].Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Users[0].PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Users[0].LockoutEnd)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Users)
+    {
+        if (item.UserName != "Admin")
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LockoutEnd)
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger bold" asp-area="Identity" 
+                       asp-page="/Account/Manage/Users/LockOut" asp-route-id="@item.Id">Lock Out</a>
+                    <a class="btn btn-danger bold" asp-area="Identity"
+                       asp-page="/Account/manage/Users/Delete" asp-route-id="@item.Id">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

@@ -19,7 +19,7 @@
 <table class="table">
     <thead>
     <tr>
-        @if (Model.Role == "Admin")
+        @if (User.IsInRole("Admin"))
         {
             <th>
                 @Html.DisplayNameFor(model => model.Products[0].Owner.UserName)
@@ -41,7 +41,7 @@
     @foreach (var item in Model.Products)
     {
         <tr>
-            @if (Model.Role == "Admin")
+            @if (User.IsInRole("Admin"))
             {
                 <th>
                     @Html.DisplayFor(modelItem => item.Owner.UserName)

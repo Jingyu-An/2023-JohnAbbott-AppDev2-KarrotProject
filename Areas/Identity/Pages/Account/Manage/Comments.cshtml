@@ -11,7 +11,7 @@
 <table class="table">
     <thead>
     <tr>
-        @if (Model.Role == "Admin")
+        @if (User.IsInRole("Admin"))
         {
             <th>
                 @Html.DisplayNameFor(model => model.Comments[0].CommentUser.UserName)
@@ -33,7 +33,7 @@
     @foreach (var item in Model.Comments)
     {
         <tr>
-            @if (Model.Role == "Admin")
+            @if (User.IsInRole("Admin"))
             {
                 <th>
                     @Html.DisplayFor(modelItem => item.CommentUser.UserName)
