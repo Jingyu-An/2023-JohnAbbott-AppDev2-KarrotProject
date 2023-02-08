@@ -1,6 +1,7 @@
 using Karrot.Data;
 using Karrot.Hub;
 using Karrot.Models;
+using Karrot.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(opt =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<KarrotDbContext>()
 .AddDefaultTokenProviders();
+
+builder.Services.AddTransient<IBraintreeService, BraintreeService>();
+
 
 
 // TODO: For Google provider authentication
