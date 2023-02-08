@@ -2,7 +2,7 @@
 @model Karrot.Pages.CartItems.TransactionPage
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "TransactionPage";
     Layout = "~/Pages/Shared/_Layout.cshtml";
     double Total = 0;
     double QST = 0;
@@ -51,9 +51,8 @@
             <td>
                 @((item.CartQuantity * item.CartItemProduct.ProductPrice).ToString("C"))
             </td>
-             @{Total = Total + (item.CartQuantity * item.CartItemProduct.ProductPrice);}
+            @{ Total = Total + (item.CartQuantity * item.CartItemProduct.ProductPrice); }
         </tr>
-       
     }
     </tbody>
 </table>
@@ -96,13 +95,7 @@
             </dd>
         </dl>
     </div>
-
 }
-    <section>
-        <div class="bt-drop-in-wrapper">
-            <div id="bt-dropin"></div>
-        </div>
-    </section>
 <form id="payment-form" method="post" asp-controller="Transaction" asp-action="Create">
 
     <td>
@@ -117,14 +110,22 @@
                placeholder="Last Name"/>
         <label asp-for="Input.lastName">Last Name</label>
         <span asp-validation-for="Input.lastName" class="text-danger"></span>
+        <input id="paymentId" asp-for="Nonce" hidden="hidden"/>
+        @Html.HiddenFor(n => n.Nonce, new { @id = "nonce" })
     </td>
+    <section>
+        <div class="bt-drop-in-wrapper">
+            <div id="bt-dropin"></div>
+        </div>
+    </section>
     <td>
         <dl class="row justify-content-lg-center">
             <dt class="col-3">
                 <button class="btn btn-success" type="submit">
                     <span>Confirm payment $@Total</span>
+                    <input asp-for="Total" value="@Total" hidden="hidden"/>
                 </button>
-                <a class="btn btn-outline-danger bold" asp-page="./DeleteAll">Cancel</a>
+                <a class="btn btn-outline-danger bold" asp-page="./Index">Cancel</a>
             </dt>
         </dl>
 
@@ -144,13 +145,13 @@
     }, function (createErr, instance) {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-
             instance.requestPaymentMethod(function (err, payload) {
                 if (err) {
                     return;
                 }
               
                 document.querySelector('#nonce').value = payload.nonce;
+                document.getElementById('paymentId').value = payload.nonce;
                 form.submit();
             });
         });

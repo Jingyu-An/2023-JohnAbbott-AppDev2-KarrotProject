@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using Braintree;
 using Karrot.Services;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller;
+using Decimal = System.Decimal;
 using Transaction = Karrot.Pages.Contoller.Transaction;
 
 namespace Karrot.Pages.CartItems
@@ -34,10 +35,17 @@ namespace Karrot.Pages.CartItems
         // public int CartItemId { get; set; }
         public IList<CartItem> CartItems { get; set; } = default!;
 
-        [BindProperty] public InputModel Input { get; set; }
+        [BindProperty] 
+        public InputModel Input { get; set; }
+        
+        [BindProperty]
+        public string Nonce { get; set; }
+
+        [BindProperty]
+        public double Total { get; set; }
 
         public Controller Controller { get; set; }
-
+        
         public class InputModel
         {
             [Required] public string firstName { get; set; }
@@ -51,7 +59,7 @@ namespace Karrot.Pages.CartItems
                 CartItems = await context.CartItems.Include("CartItemProduct").ToListAsync();
             }
 
-            Controller = new Transaction(braintreeService);
+            Controller = new Transaction(braintreeService, logger, context, CartItems);
 
             var gateway = braintreeService.GetGateway();
             var clientToken = gateway.ClientToken.Generate();
@@ -63,9 +71,11 @@ namespace Karrot.Pages.CartItems
         {
             var userName = User.Identity.Name;
             var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+            
             CartItems = await context.CartItems.Include("CartItemProduct").ToListAsync();
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
             var address = context.Address.FirstOrDefault(x => x.User.Id == userId);
+            
             var order = new Order();
             order.OrderItems = new();
             order.Address = address.AddressLine1;
@@ -77,7 +87,9 @@ namespace Karrot.Pages.CartItems
             order.Phone = user.PhoneNumber;
             order.FirstName = Input.firstName;
             order.LastName = Input.lastName;
-            order.PaymentTransactionId = "1";
+            order.Total= Convert.ToDecimal(Total);
+            order.PaymentTransactionId = Nonce;
+            
             foreach (var item in CartItems)
             {
                 order.OrderItems.Add(new OrderItem
@@ -86,12 +98,10 @@ namespace Karrot.Pages.CartItems
                     OrderQuantity = item.CartQuantity,
                 });
             }
-
-            context.Orders.Add(order);
-            context.CartItems.RemoveRange(CartItems);
-
-            await context.SaveChangesAsync();
-            return RedirectToPage("OrderSummary", new { Id = order.OrderId });
+            
+            Transaction transaction = new Transaction(braintreeService, logger, context, CartItems); 
+            
+            return transaction.Create(order).Result;
         }
     }
 }

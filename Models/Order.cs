@@ -54,7 +54,7 @@ public class Order
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; }
     
-    public int Total { get; set; }
+    public decimal Total { get; set; }
     
     public string PaymentTransactionId { get; set; }
 
