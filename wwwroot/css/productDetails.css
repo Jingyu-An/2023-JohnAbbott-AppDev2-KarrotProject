@@ -306,4 +306,17 @@
     height: 33px;
     background: #ff6e1d;
 }
+.trashcan {
+    width: 20px;
+    height: 20px;
+}
+.trashcan .trashcan-open {
+    display: none;
+}
+.trashcan:hover .trashcan-open {
+    display: inline;
+}
+.trashcan:hover .trashcan-closed {
+    display: none;
+}
 
