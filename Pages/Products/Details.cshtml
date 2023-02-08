@@ -49,6 +49,7 @@
 
                     <div class="col-md-6">
                         <span class="address">@Model.Product.Address.City</span>
+                        <input type="text" id="address" value=@Model.Product.Address.City hidden/>
                     </div>
                     <div class="col-md-6">
                         <div class="product-price-discount">
@@ -85,9 +86,28 @@
                         ( @Model.Comments.Count() )
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="true">
+                        Map
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20px" height="20px">
+                            <path fill="#1c9957"
+                                  d="M42,39V9c0-1.657-1.343-3-3-3H9C7.343,6,6,7.343,6,9v30c0,1.657,1.343,3,3,3h30C40.657,42,42,40.657,42,39z"/>
+                            <path fill="#3e7bf1" d="M9,42h30c1.657,0-15-16-15-16S7.343,42,9,42z"/>
+                            <path fill="#cbccc9" d="M42,39V9c0-1.657-16,15-16,15S42,40.657,42,39z"/>
+                            <path fill="#efefef" d="M39,42c1.657,0,3-1.343,3-3v-0.245L26.245,23L23,26.245L38.755,42H39z"/>
+                            <path fill="#ffd73d" d="M42,9c0-1.657-1.343-3-3-3h-0.245L6,38.755V39c0,1.657,1.343,3,3,3h0.245L42,9.245V9z"/>
+                            <path fill="#d73f35"
+                                  d="M36,2c-5.523,0-10,4.477-10,10c0,6.813,7.666,9.295,9.333,19.851C35.44,32.531,35.448,33,36,33s0.56-0.469,0.667-1.149C38.334,21.295,46,18.813,46,12C46,6.477,41.523,2,36,2z"/>
+                            <path fill="#752622" d="M36 8.5A3.5 3.5 0 1 0 36 15.5A3.5 3.5 0 1 0 36 8.5Z"/>
+                            <path fill="#fff"
+                                  d="M14.493,12.531v2.101h2.994c-0.392,1.274-1.455,2.185-2.994,2.185c-1.833,0-3.318-1.485-3.318-3.318s1.486-3.318,3.318-3.318c0.824,0,1.576,0.302,2.156,0.799l1.548-1.547C17.22,8.543,15.92,8,14.493,8c-3.038,0-5.501,2.463-5.501,5.5s2.463,5.5,5.501,5.5c4.81,0,5.637-4.317,5.184-6.461L14.493,12.531z"/>
+                        </svg>
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div id="description">@Html.DisplayFor(model => model.Product.ProductDescription)</div>
+                <div id="map">map</div>
                 <div id="review">
 
                     @if (Model.Comments != null || Model.Comments.Count > 0)
@@ -106,10 +126,7 @@
                                             @if (User.Identity.Name == comment.CommentUser.UserName)
                                             {
                                                 <a class="rate" asp-page="./CommentDelete" asp-route-id="@comment.CommentId">
-                                                    @* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16"> *@
-                                                    @*     <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/> *@
-                                                    @* </svg> *@
-                                                    <svg class="trashcan" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 25 24.8" style="enable-background:new 0 0 25 24.8;" xml:space="preserve"  data-ember-action="" data-ember-action-1015="1015" width="16" height="16" fill="currentColor" >
+                                                    <svg class="trashcan" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 25 24.8" style="enable-background:new 0 0 25 24.8;" xml:space="preserve" data-ember-action="" data-ember-action-1015="1015" width="16" height="16" fill="currentColor">
                                                         <g class="trashcan-open">
                                                             <path d="M18.7,24.4H5.9L4.9,7h14.9L18.7,24.4z M7.6,22.6H17l0.8-13.7h-11L7.6,22.6z"></path>
                                                             <polygon points="13.6,10.3 13.1,21.2 14.9,21.2 15.4,10.3 "></polygon>
@@ -180,3 +197,35 @@
 
 
 <script src="~/js/productDetails.js" defer></script>
+<script>
+  // Initialize Google Map.
+  var map;
+  var mapcode;
+  function initMap() {
+    
+    mapcode = new google.maps.Geocoder();
+    var lnt = new google.maps.LatLng(37.782293, -122.391240);
+    var diagChoice = {
+                    zoom: 9,
+                    center: lnt,
+                    diagId: google.maps.MapTypeId.ROADMAP
+    }
+
+    map = new google.maps.Map(document.getElementById('map'), diagChoice);
+
+    var add = document.getElementById('address').value;
+                   mapcode.geocode({ 'address': add }, function (results, status) {
+                       if (status == google.maps.GeocoderStatus.OK) {
+                           map.setCenter(results[0].geometry.location);
+                           var hint = new google.maps.Marker({
+                               map: map,
+                               position: results[0].geometry.location
+                           });
+                       } else {
+                           alert('This code is not successful ' + status);
+                       }
+                   });
+    
+  }
+  </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDlTTZE5aXBMoiYy-dRX5C5qgzyMCPoGA&callback=initMap" async defer></script>

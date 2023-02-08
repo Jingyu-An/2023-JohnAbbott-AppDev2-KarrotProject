@@ -36,7 +36,10 @@
 
   <ItemGroup>
     <AdditionalFiles Include="Pages\Chatting\SimpleChat.cshtml" />
-    <AdditionalFiles Include="Pages\GoogleMap\Map.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\GoogleMap\Map.cshtml" />
   </ItemGroup>
 
 </Project>
