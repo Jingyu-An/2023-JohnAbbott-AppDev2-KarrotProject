@@ -16,7 +16,7 @@ html {
 
 body {
   margin-bottom: 60px;
-  
+
 }
 
 /* bold font and font-family for navigation  */
@@ -27,3 +27,7 @@ body {
 
 /* To change navigation link colors when select */
 
+.text-center {
+  text-align: center;
+
+}
