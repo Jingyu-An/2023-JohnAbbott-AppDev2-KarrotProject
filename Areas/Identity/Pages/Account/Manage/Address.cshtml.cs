@@ -94,7 +94,6 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
             }
             else
             {
-
                 address.AddressLine1 = Input.Address;
                 address.City = Input.City;
                 address.State = Input.State;
@@ -112,27 +111,6 @@ namespace Karrot.Areas.Identity.Pages.Account.Manage.Addresses
             var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
             var address = await _context.Address.FirstOrDefaultAsync(x => x.User.Id == userId);
 
-            // if (address == null)
-            // {
-            //     address = new Address()
-            //     {
-            //         AddressLine1 = Input.Address,
-            //         City = Input.City,
-            //         State = Input.State,
-            //         PostalCode = Input.PostalCode,
-            //         Country = Input.Country,
-            //         User = await _userManager.GetUserAsync(User)
-            //     };
-            //     _context.Address.Add(address);
-            // }
-            // else
-            // {
-            //     address.AddressLine1 = Input.Address;
-            //     address.City = Input.City;
-            //     address.State = Input.State;
-            //     address.PostalCode = Input.PostalCode;
-            //     address.Country = Input.Country;
-            // }
             _context.Remove(address);
             await _context.SaveChangesAsync();
             return Page();
