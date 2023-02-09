@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="product-btn-group">
                                     <a class="btn btn-details" asp-page="./Details" asp-route-id="@item.Id">Details</a>
-                                    <a class="btn btn-success" asp-page="../CartItems/Create" asp-route-id="@item.Id">Add to cart</a>
+                                    <a class="btn btn-success" asp-page="../CartItems/Create" asp-route-id="@item.Id" asp-route-data="1">Add to cart</a>
                                 </div>
                             </div>
                         </div>

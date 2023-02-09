@@ -26,6 +26,8 @@ namespace Karrot.Pages.CartItems
         [BindProperty(SupportsGet = true)] public int Data { get; set; }
 
         public Product Product { get; set; }
+        
+        public IList<CartItem> CartItems { get;set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id, int data)
         {
@@ -61,28 +63,35 @@ namespace Karrot.Pages.CartItems
             var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
             var product = context.Products.Where(p => p.Id == Id).FirstOrDefault();
 
-            var cartItem = context.CartItems.Where(c => c.CartItemProduct.Id == product.Id).FirstOrDefault();
-            if (cartItem != null)
+            CartItems = await context.CartItems.Include("CartItemUser").Where(c => c.CartItemProduct.Id == product.Id)
+                .ToListAsync();
+            if (CartItems != null)
             {
-                cartItem.CartQuantity += data;
-                try
+                foreach (var cartItem in CartItems)
                 {
-                    logger.LogInformation("Start add cart save");
-                    await context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CartItemExists(cartItem.CartItemId))
+                    if (cartItem.CartItemUser.Id == user.Id)
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                        cartItem.CartQuantity += data;
+                        try
+                        {
+                            logger.LogInformation("Start add cart save");
+                            await context.SaveChangesAsync();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            if (!CartItemExists(cartItem.CartItemId))
+                            {
+                                return NotFound();
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
 
-                return RedirectToPage("./Index");
+                        return RedirectToPage("./Index");
+                    }
+                }
             }
 
             var newCartItem = new CartItem
