@@ -35,17 +35,14 @@ namespace Karrot.Pages.CartItems
         // public int CartItemId { get; set; }
         public IList<CartItem> CartItems { get; set; } = default!;
 
-        [BindProperty] 
-        public InputModel Input { get; set; }
-        
-        [BindProperty]
-        public string Nonce { get; set; }
+        [BindProperty] public InputModel Input { get; set; }
 
-        [BindProperty]
-        public double Total { get; set; }
+        [BindProperty] public string Nonce { get; set; }
+
+        [BindProperty] public double Total { get; set; }
 
         public Controller Controller { get; set; }
-        
+
         public class InputModel
         {
             [Required] public string firstName { get; set; }
@@ -56,7 +53,9 @@ namespace Karrot.Pages.CartItems
         {
             if (context.CartItems != null)
             {
-                CartItems = await context.CartItems.Include("CartItemProduct").ToListAsync();
+                CartItems = await context.CartItems.Include("CartItemProduct")
+                    .Where(c => c.CartItemUser.UserName == User.Identity.Name)
+                    .ToListAsync();
             }
 
             Controller = new Transaction(braintreeService, logger, context, CartItems);
@@ -71,36 +70,44 @@ namespace Karrot.Pages.CartItems
         {
             var userName = User.Identity.Name;
             var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+            CartItems = await context.CartItems.Include("CartItemProduct").Where(c => c.CartItemUser.Id == user.Id)
+                .ToListAsync();
+            var address = context.Address.FirstOrDefault(x => x.User.Id == user.Id);
             
-            CartItems = await context.CartItems.Include("CartItemProduct").ToListAsync();
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
-            var address = context.Address.FirstOrDefault(x => x.User.Id == userId);
+            if (address == null)
+            {
+                return RedirectToPage("/Account/manage/Address", new {area = "Identity"});
+            }
             
             var order = new Order();
-            order.OrderItems = new();
+            order.OrderUser = user;
+            order.FirstName = Input.firstName;
+            order.LastName = Input.lastName;
+            order.Email = user.Email;
+            order.Phone = user.PhoneNumber;
             order.Address = address.AddressLine1;
             order.City = address.City;
             order.State = address.State;
             order.Country = address.Country;
             order.PostalCode = address.PostalCode;
-            order.Email = user.Email;
-            order.Phone = user.PhoneNumber;
-            order.FirstName = Input.firstName;
-            order.LastName = Input.lastName;
-            order.Total= Convert.ToDecimal(Total);
+            order.OrderItems = new List<OrderItem>();
+            order.Total = Convert.ToDecimal(Total);
             order.PaymentTransactionId = Nonce;
-            
+
             foreach (var item in CartItems)
             {
                 order.OrderItems.Add(new OrderItem
                 {
                     Product = item.CartItemProduct,
                     OrderQuantity = item.CartQuantity,
+                    OrderItemUser = user,
+                    Price = item.CartItemProduct.ProductPrice
                 });
             }
-            
-            Transaction transaction = new Transaction(braintreeService, logger, context, CartItems); 
-            
+
+            Transaction transaction = new Transaction(braintreeService, logger, context, CartItems);
+
             return transaction.Create(order).Result;
         }
     }
