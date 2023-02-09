@@ -49,6 +49,7 @@
 
                     <div class="col-md-6">
                         <span class="address">@Model.Product.Address.City</span>
+                        <input type="text" id="address" value=@Model.Product.Address.City hidden/>
                     </div>
                     <div class="col-md-6">
                         <div class="product-price-discount">
@@ -72,7 +73,7 @@
             </div>
         </div>
         <div class="back-to-list">
-            <a asp-page="./Index">Back to List</a>
+            <a asp-page="./Index"> <img src="~/images/back.svg"/></a>
         </div>
         <div class="product-info-tabs">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -85,9 +86,15 @@
                         ( @Model.Comments.Count() )
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="true">
+                        Map<img src="~/images/map.svg"/>
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div id="description">@Html.DisplayFor(model => model.Product.ProductDescription)</div>
+                <div id="map">map</div>
                 <div id="review">
 
                     @if (Model.Comments != null || Model.Comments.Count > 0)
@@ -106,10 +113,7 @@
                                             @if (User.Identity.Name == comment.CommentUser.UserName)
                                             {
                                                 <a class="rate" asp-page="./CommentDelete" asp-route-id="@comment.CommentId">
-                                                    @* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16"> *@
-                                                    @*     <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/> *@
-                                                    @* </svg> *@
-                                                    <svg class="trashcan" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 25 24.8" style="enable-background:new 0 0 25 24.8;" xml:space="preserve"  data-ember-action="" data-ember-action-1015="1015" width="16" height="16" fill="currentColor" >
+                                                    <svg class="trashcan" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 25 24.8" style="enable-background:new 0 0 25 24.8;" xml:space="preserve" data-ember-action="" data-ember-action-1015="1015" width="16" height="16" fill="currentColor">
                                                         <g class="trashcan-open">
                                                             <path d="M18.7,24.4H5.9L4.9,7h14.9L18.7,24.4z M7.6,22.6H17l0.8-13.7h-11L7.6,22.6z"></path>
                                                             <polygon points="13.6,10.3 13.1,21.2 14.9,21.2 15.4,10.3 "></polygon>
@@ -180,3 +184,35 @@
 
 
 <script src="~/js/productDetails.js" defer></script>
+<script>
+  // Initialize Google Map.
+  var map;
+  var mapcode;
+  function initMap() {
+    
+    mapcode = new google.maps.Geocoder();
+    var lnt = new google.maps.LatLng(37.782293, -122.391240);
+    var diagChoice = {
+                    zoom: 9,
+                    center: lnt,
+                    diagId: google.maps.MapTypeId.ROADMAP
+    }
+
+    map = new google.maps.Map(document.getElementById('map'), diagChoice);
+
+    var add = document.getElementById('address').value;
+                   mapcode.geocode({ 'address': add }, function (results, status) {
+                       if (status == google.maps.GeocoderStatus.OK) {
+                           map.setCenter(results[0].geometry.location);
+                           var hint = new google.maps.Marker({
+                               map: map,
+                               position: results[0].geometry.location
+                           });
+                       } else {
+                           alert('This code is not successful ' + status);
+                       }
+                   });
+    
+  }
+  </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDlTTZE5aXBMoiYy-dRX5C5qgzyMCPoGA&callback=initMap" async defer></script>
