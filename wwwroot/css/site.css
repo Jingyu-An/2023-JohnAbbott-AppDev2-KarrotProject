@@ -31,3 +31,28 @@ body {
   text-align: center;
 
 }
+
+/*for order summary*/
+.panel-body{
+  display: flex;
+  padding: 5px;
+  margin : 10px;
+}
+.invoice-title h2, .invoice-title h3 {
+  display: inline-block;
+}
+.table{
+  padding-right: 10px;
+}
+
+.table > tbody > tr > .no-line {
+  border-top: none;
+}
+
+.table > thead > tr > .no-line {
+  border-bottom: none;
+}
+
+.table > tbody > tr > .thick-line {
+  border-top: 2px solid;
+}

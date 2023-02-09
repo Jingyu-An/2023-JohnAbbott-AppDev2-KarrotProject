@@ -93,6 +93,7 @@ namespace Karrot.Pages.CartItems
             order.PostalCode = address.PostalCode;
             order.OrderItems = new List<OrderItem>();
             order.Total = Convert.ToDecimal(Total);
+            order.OrderDate = DateTime.Now;
             order.PaymentTransactionId = Nonce;
 
             foreach (var item in CartItems)

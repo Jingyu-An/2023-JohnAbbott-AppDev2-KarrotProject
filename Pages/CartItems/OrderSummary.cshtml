@@ -4,39 +4,193 @@
 @model Karrot.Pages.CartItems.OrderSummary
 @{
     ViewData["Title"] = "OrderSummary";
+    double Total = 0;
+    double QST = 0;
+    double GST = 0;
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-center">@ViewData["Title"]</h1>
 
 
+@* <div class="row"> *@
+@*     <div class="md-6"> *@
+@*         <h4>Details: </h4> *@
+@*         Date: @Model.Order.OrderDate *@
+@*     </div> *@
+@*     <div class="md-6"> *@
+@*         <h4>Items by seller: </h4> *@
+@*         @foreach (var sellerWithItems in Model.Order.OrderItems.GroupBy(x => x.Product.Owner.Id)) *@
+@*         { *@
+@*             <div> *@
+@*                 @{ *@
+@*                     var owner = sellerWithItems.First().Product.Owner; *@
+@*                 } *@
+@* *@
+@*                 Your products from @owner.Email *@
+@*                 <a asp-page="Rating" asp-route-orderId="@Model.Id" asp-route-sellerId="@owner.Id">Rate</a> *@
+@* *@
+@*                 <ul> *@
+@*                     @foreach (var product in sellerWithItems) *@
+@*                     { *@
+@*                         <li> *@
+@*                             @product.Product.ProductName: @product.OrderQuantity *@
+@* *@
+@*                         </li> *@
+@*                     } *@
+@*                 </ul> *@
+@*             </div> *@
+@*         } *@
+@*     </div> *@
+@* *@
+@* </div> *@
 
-<div class="row">
-    <div class="md-6">
-        <h4>Details: </h4>
-        Date: @Model.Order.OrderDate
-    </div>
-    <div class="md-6">
-        <h4>Items by seller: </h4>
-        @foreach (var sellerWithItems in Model.Order.OrderItems.GroupBy(x => x.Product.Owner.Id))
-        {
-            <div>
-                @{
-                    var owner = sellerWithItems.First().Product.Owner;
-                }
 
-                Your products from @owner.Email
-                <a asp-page="Rating" asp-route-orderId="@Model.Id" asp-route-sellerId="@owner.Id">Rate</a>
-
-                <ul>
-                    @foreach (var product in sellerWithItems)
-                    {
-                        <li>@product.Product.ProductName: @product.OrderQuantity
-
-                        </li>
-                    }
-                </ul>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="invoice-title">
+                <h4 class="text-center"> Invoice Order # @Model.Order.OrderId</h4>
             </div>
-        }
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address style="float: right">
+                        <strong>Order Date:</strong><br>
+                        @Model.Order.OrderDate<br><br>
+                    </address>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div style="width:30%">
+                        <img src="~/images/KarrotMascot.jpg" class="text-center" width="100%"/>
+                    </div>
+                    <div style="width:3%"></div>
+                    <div class="table-responsive" style="width: 60%">
+                        <table class="table table-condensed">
+                            <thead>
+                            <tr>
+                                <td>
+                                    <strong>Seller</strong>
+                                </td>
+                                <td>
+                                    <strong>Item</strong>
+                                </td>
+                                <td class="text-center">
+                                    <strong>Price</strong>
+                                </td>
+                                <td class="text-center">
+                                    <strong>Quantity</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>Totals</strong>
+                                </td>
+                                <td>
+                                    <strong>Leave Rating</strong>
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var sellerWithItems in Model.Order.OrderItems.GroupBy(x => x.Product.Owner.Id))
+                            {
+                                var owner = sellerWithItems.First().Product.Owner;
+                                @foreach (var product in sellerWithItems)
+                                {
+                                    <tr>
+                                        <td>@owner.UserName</td>
+                                        <td>@product.Product.ProductName</td>
+                                        <td class="text-center">$@product.Product.ProductPrice</td>
+                                        <td class="text-center">@product.OrderQuantity</td>
+                                        <td class="text-right">$@(product.Product.ProductPrice * product.OrderQuantity)</td>
+                                        @{ Total = Total + (product.Product.ProductPrice * product.OrderQuantity); }
+                                        <td>
+                                            <a asp-page="Rating" asp-route-orderId="@Model.Id" asp-route-sellerId="@owner.Id">Rate</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            <tr>
+                                <td class="thick-line"></td>
+                                <td class="thick-line"></td>
+                                <td class="thick-line"></td>
+                                <td class="thick-line"></td>
+                                <td class="thick-line text-center">
+                                    <strong>Subtotal</strong>
+                                </td>
+                                <td class="thick-line text-right">$@Total</td>
+                            </tr>
+                            <tr>
+                                <td class="no-line"></td>
+                                <td class="no-line"></td>
+                                <td class="no-line"></td>
+                                <td class="no-line"></td>
+                                <td class="no-line text-center">
+                                    <strong>QST</strong>
+                                </td>
+                                <td class="no-line text-right">
+                                    @{ QST = Total * 0.09975; }
+                                    @(QST.ToString("C"))
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-line"></td>
+                                <td class="no-line"></td>
+                                <td class="no-line"></td>
+                                <td class="no-line"></td>
+                                <td class="no-line text-center">
+                                    <strong>GST</strong>
+                                </td>
+                                <td class="no-line text-right">
+                                    @{ GST = Total * 0.05; }
+                                    @(GST.ToString("C"))
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-line"></td>
+                                <td class="no-line"></td>
+                                <td class="no-line"></td>
+                                <td class="no-line"></td>
+                                <td class="no-line text-center">
+                                    <strong>Total</strong>
+                                </td>
+                                <td class="no-line text-right">@((Total + QST + GST).ToString("C"))</td>
+                            </tr>
+                            </tbody>
+                            <div class="icon navbar-brand" style="float: right">
+                                <a asp-area="" asp-page="/Index">
+                                    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 28" width="97">
+                                        <path
+                                            d="M7.946 8.732a7.944 7.944 0 0 0-7.923 8.49l.008.105a7.9 7.9 0 0 0 .935 3.143c1.728 3.29 5.29 5.298 6.537 5.925.281.14.608.14.887 0 1.248-.627 4.81-2.635 6.537-5.924a7.897 7.897 0 0 0 .936-3.147l.007-.099a7.943 7.943 0 0 0-7.923-8.493Zm0 10.902a2.98 2.98 0 1 1 0-5.958 2.98 2.98 0 0 1 0 5.958Z"
+                                            fill="#FF7E36">
+                                        </path>
+                                        <path
+                                            d="M4.968 7.954h.64a7.95 7.95 0 0 1 4.678 0h.64a1.49 1.49 0 1 0-.836-2.72 2.483 2.483 0 1 0-4.624-1.25c0 .456.125.882.34 1.25a1.49 1.49 0 1 0-.837 2.72h-.001Z"
+                                            fill="#00B493">
+                                        </path>
+                                        <path
+                                            d="M37.106 9.073H32.3L28.12 14.74V4.464h-4.229v18.783h4.229V18.06l3.99 5.187h5.236l-5.666-7.112 5.426-7.062Z"
+                                            fill="#FF7E36">
+                                        </path>
+                                        <path
+                                            d="M46.663 9.94c-.43-.289-.909-.479-1.487-.669-.719-.24-1.487-.338-2.304-.338-.959 0-1.925.19-2.784.578a7.414 7.414 0 0 0-2.255 1.536 8.15 8.15 0 0 0-1.536 2.305 7.276 7.276 0 0 0-.578 2.882c0 1.008.19 1.966.578 2.883a7.415 7.415 0 0 0 1.536 2.255 7.469 7.469 0 0 0 2.255 1.536 6.667 6.667 0 0 0 2.784.578c.817 0 1.585-.099 2.304-.339a5.282 5.282 0 0 0 1.487-.669v.818h4.18V9.073h-4.18v.867Zm-4.8 9.458c-.387-.19-.767-.43-1.056-.719-.29-.339-.529-.669-.719-1.107-.19-.43-.24-.867-.24-1.346 0-.48.1-.909.24-1.346.19-.43.43-.818.719-1.107.289-.29.669-.578 1.057-.719.388-.19.867-.289 1.346-.289.48 0 .958.1 1.346.29.43.19.818.429 1.107.718.339.289.579.669.768 1.107.19.43.29.867.29 1.346 0 .479-.1.958-.24 1.346-.19.43-.43.768-.719 1.107-.338.339-.669.578-1.106.719-.917.338-1.974.388-2.792 0ZM58.053 9.461c-.48.29-.958.628-1.346 1.058V9.08h-4.18v14.166h4.229v-6.484c0-1.107.29-2.015.867-2.693.579-.627 1.537-.958 2.833-.958h.24V8.883h-.24c-.867 0-1.685.19-2.403.578ZM67.75 9.461c-.48.29-.959.628-1.347 1.058V9.08h-4.18v14.166h4.23v-6.484c0-1.107.289-2.015.867-2.693.578-.627 1.536-.958 2.833-.958h.24V8.883h-.24c-.867 0-1.685.19-2.404.578ZM83.748 10.948c-.669-.669-1.486-1.198-2.403-1.586-.917-.388-1.925-.578-3.023-.578-1.107 0-2.115.19-3.023.578-.917.388-1.727.909-2.404 1.586a7.301 7.301 0 0 0-1.586 2.354 7.276 7.276 0 0 0-.578 2.883c0 1.007.19 2.015.578 2.882a7.256 7.256 0 0 0 1.586 2.354 6.664 6.664 0 0 0 2.404 1.537c.908.388 1.924.578 3.023.578 1.057 0 2.114-.19 3.023-.579.908-.388 1.726-.908 2.403-1.585a7.299 7.299 0 0 0 1.586-2.354 7.276 7.276 0 0 0 .578-2.883c0-1.008-.19-2.015-.578-2.883a6.21 6.21 0 0 0-1.586-2.304Zm-6.773 1.966c.43-.19.868-.24 1.347-.24s.958.1 1.346.24c.43.19.768.43 1.107.718.289.339.528.67.718 1.107.19.43.24.909.24 1.437 0 .529-.1 1.008-.29 1.438-.19.429-.429.817-.767 1.106a3.42 3.42 0 0 1-1.107.768c-.867.389-1.925.389-2.734 0-.43-.19-.768-.43-1.057-.768-.29-.338-.529-.669-.719-1.107-.14-.429-.24-.908-.24-1.437 0-.528.1-1.007.24-1.437.19-.43.43-.818.719-1.107.38-.33.76-.57 1.197-.718ZM95.948 12.864v-3.79h-3.362V5.521h-4.18v3.502h-1.965v3.8h1.966v5.475c0 1.636.43 2.833 1.346 3.7.867.818 2.304 1.248 4.18 1.248h2.064v-3.651h-1.776c-.578 0-.958-.1-1.197-.339-.24-.19-.388-.578-.388-1.156v-5.286h3.312v.05Z"
+                                            fill="#FF7E36">
+                                        </path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </table>
+                        <h2 class="text-center">Thank you for using Karrot market.</h2>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
