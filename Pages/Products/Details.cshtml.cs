@@ -92,5 +92,10 @@ namespace Karrot.Pages.Products
 
             return RedirectToPage("./Details", new { Id = Id });
         }
+
+        public IActionResult Tests()
+        {
+            return RedirectToPage("./Index");
+        }
     }
 }

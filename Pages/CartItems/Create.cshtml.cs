@@ -23,12 +23,11 @@ namespace Karrot.Pages.CartItems
         }
 
         [BindProperty(SupportsGet = true)] public int Id { get; set; }
-
-        [BindProperty] public CartItem CartItem { get; set; } = default!;
+        [BindProperty(SupportsGet = true)] public int Data { get; set; }
 
         public Product Product { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, int data)
         {
             if (id == null || context.Products == null)
             {
@@ -43,12 +42,12 @@ namespace Karrot.Pages.CartItems
 
             Product = product;
 
-            await OnPostAsync(id);
+            await OnPostAsync(id, data);
             return RedirectToPage("./Index");
         }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int? id, int data)
         {
             ModelState.Remove("CartItem.CartItemUser");
             ModelState.Remove("CartItem.CartItemProduct");
@@ -65,7 +64,7 @@ namespace Karrot.Pages.CartItems
             var cartItem = context.CartItems.Where(c => c.CartItemProduct.Id == product.Id).FirstOrDefault();
             if (cartItem != null)
             {
-                cartItem.CartQuantity++;
+                cartItem.CartQuantity += data;
                 try
                 {
                     logger.LogInformation("Start add cart save");
@@ -88,7 +87,7 @@ namespace Karrot.Pages.CartItems
 
             var newCartItem = new CartItem
             {
-                CartQuantity = 1, CartItemCreated = DateTime.Now,
+                CartQuantity = data, CartItemCreated = DateTime.Now,
                 CartItemUser = user, CartItemProduct = product
             };
 

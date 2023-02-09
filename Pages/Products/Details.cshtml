@@ -61,19 +61,21 @@
 
                     <div class="product-count">
                         <label for="size">Quantity</label>
-                        <form action="#" class="display-flex">
+                        <div class="display-flex">
                             <div class="qtyminus">-</div>
-                            <input type="text" name="quantity" value="1" class="qty">
+                            <input value="1" class="qty" id="qty">
                             <div class="qtyplus">+</div>
-                        </form>
-                        <a class="btn round-black-btn" asp-page="../CartItems/Create" asp-route-id="@Model.Product.Id">Add to cart</a>
+                        </div>
+                        <a class="btn round-black-btn" onclick="qtySet(@Model.Product.Id)">Add to cart</a>
                         <a class="btn round-black-btn" asp-page="../Chatting/SimpleChat" asp-route-id="@Model.Product.Id" target=”_blank”>Start to chat with seller</a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="back-to-list">
-            <a asp-page="./Index"> <img src="~/images/back.svg"/></a>
+            <a asp-page="./Index">
+                <img src="~/images/back.svg"/>
+            </a>
         </div>
         <div class="product-info-tabs">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -216,3 +218,9 @@
   }
   </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDlTTZE5aXBMoiYy-dRX5C5qgzyMCPoGA&callback=initMap" async defer></script>
+<script>
+    const qtySet = (id) => {
+        let qty = document.getElementById('qty').value;
+        location.href ="../CartItems/Create?id=" + id + "&data=" + qty;
+    }
+</script>
