@@ -32,18 +32,19 @@
                         <div class="reviews-counter">
                             <span>@Model.Product.Owner.UserName</span>
                             <div class="rate">
-                                <input type="radio" id="star5" name="rate" value="5" checked/>
+                                <input type="radio" id="star5" name="rate" value="5"/>
                                 <label for="star5" title="text">5 stars</label>
-                                <input type="radio" id="star4" name="rate" value="4" checked/>
+                                <input type="radio" id="star4" name="rate" value="4"/>
                                 <label for="star4" title="text">4 stars</label>
-                                <input type="radio" id="star3" name="rate" value="3" checked/>
+                                <input type="radio" id="star3" name="rate" value="3"/>
                                 <label for="star3" title="text">3 stars</label>
                                 <input type="radio" id="star2" name="rate" value="2"/>
                                 <label for="star2" title="text">2 stars</label>
                                 <input type="radio" id="star1" name="rate" value="1"/>
                                 <label for="star1" title="text">1 star</label>
-                            </div>
+                             </div>
                         </div>
+
                     </div>
 
 
@@ -223,4 +224,28 @@
         let qty = document.getElementById('qty').value;
         location.href ="../CartItems/Create?id=" + id + "&data=" + qty;
     }
+</script>
+<script defer>
+    $(document).ready( () => {
+        let start1 = document.getElementById('star1');
+        let start2 = document.getElementById('star2');
+        let start3 = document.getElementById('star3');
+        let start4 = document.getElementById('star4');
+        let start5 = document.getElementById('star5');
+        if (@Model.ratingAvg >= start1.value) {
+            start1.checked = true;
+        }
+        if (@Model.ratingAvg >= start2.value) {
+            start2.checked = true;
+        }
+        if (@Model.ratingAvg >= start3.value) {
+            start3.checked = true;
+        }
+        if (@Model.ratingAvg >= start4.value) {
+            start4.checked = true;
+        }
+        if (@Model.ratingAvg >= start5.value) {
+            start5.checked = true;
+        }
+    });
 </script>

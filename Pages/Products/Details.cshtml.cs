@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Karrot.Data;
 using Karrot.Models;
 using Microsoft.AspNetCore.Authorization;
+using Rating = Karrot.Pages.CartItems.Rating;
 
 namespace Karrot.Pages.Products
 {
@@ -23,9 +24,13 @@ namespace Karrot.Pages.Products
 
 
         public Product Product { get; set; } = default!;
-        [BindProperty] public Comment Comment { get; set; } = default!;
+        [BindProperty] 
+        public Comment Comment { get; set; } = default!;
+        public Rating Rating { get; set; }
         public List<Comment>? Comments { get; set; }
-
+        public List<Models.Rating> Ratings { get; set; }
+        public int ratingValue { get; set; }
+        public double ratingAvg { get; set; }
         public string Image { get; set; }
         public string CategoryName { get; set; }
         public string Address { get; set; }
@@ -43,8 +48,38 @@ namespace Karrot.Pages.Products
             var product = await _context.Products.Include("Owner").Include("Address").Include("Category")
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            Comments = await _context.Comments.Include("CommentUser").Include("CommentProduct").Where(c => c.CommentProduct.Id == Id).ToListAsync();
+            var ratingSeller = await _context.Ratings.Include("RatedSeller")
+                .FirstOrDefaultAsync(r => r.RatedSeller.Id == product.Owner.Id);
+            
+            if (ratingSeller == null)
+            {
+                ratingValue = 0;
+            }
+            else
+            {
+                ratingValue = ratingSeller.RatingValue;
+            }
 
+
+            Comments = await _context.Comments.Include("CommentUser").Include("CommentProduct").Where(c => c.CommentProduct.Id == Id).ToListAsync();
+            Ratings = await _context.Ratings.Include("RatedSeller").Where(r => r.RatedSeller.Id == product.Owner.Id)
+                .ToListAsync();
+
+            if (Ratings == null)
+            {
+                ratingAvg = 0;
+            }
+            else
+            {
+                foreach (var sellerRate in Ratings)
+                {
+                    ratingValue = ratingValue + sellerRate.RatingValue;
+                }
+                ratingAvg = ratingValue / (double)Ratings.Count;
+            }
+
+            
+            
             if (product == null)
             {
                 return NotFound();
