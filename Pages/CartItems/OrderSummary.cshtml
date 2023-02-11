@@ -111,7 +111,14 @@
                                         <td class="text-right">$@(product.Product.ProductPrice * product.OrderQuantity)</td>
                                         @{ Total = Total + (product.Product.ProductPrice * product.OrderQuantity); }
                                         <td>
-                                            <a asp-page="Rating" asp-route-orderId="@Model.Id" asp-route-sellerId="@owner.Id">Rate</a>
+                                                <form method="post" asp-page="Rating" asp-route-orderId="@Model.Id" asp-route-sellerId="@owner.Id" class="d-flex flex-row">
+        
+
+            <input asp-for="Input.Rating" required="true" class="input-rating rating-loading" aria-required="true"
+                placeholder="Rate Seller" />
+            <button type="submit" class="btn btn-primary">Rate Seller</button>
+    </form>
+                                          
                                         </td>
                                     </tr>
                                 }
@@ -194,3 +201,20 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.1.2/js/star-rating.min.js" integrity="sha512-BjVoLC9Qjuh4uR64WRzkwGnbJ+05UxQZphP2n7TJE/b0D/onZ/vkhKTWpelfV6+8sLtQTUqvZQbvvGnzRZniTQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.1.2/themes/krajee-svg/theme.min.js" integrity="sha512-tl/PJxCMfgyb4CtWoIgSXi/1x5As+ufhB62D67+nF4F5i2MafacNEuBCRgh6FHb3iAsfLXabp4cC6qDWMCZnSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script type="text/javascript">
+    $(document).ready( (x) => {
+      $(".input-rating").rating({min: 0, max: 5, step: 1, size: 'sm', showClear: false, showCaption: false});
+    });
+    </script>
+}
+
+@section Styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.1.2/css/star-rating.min.css" integrity="sha512-0VKIzRYJRN0QKkUNbaW7Ifj5sPZiJVAKF1ZmHB/EMHtZKXlzzbs4ve0Z0chgkwDWP6HkZlGShFj5FHoPstke1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.1.2/themes/krajee-svg/theme.min.css" integrity="sha512-q6XeY4ys7Foi9D1oD7BaADWxjvqeI+58MAg/f7a61vpnclnScvmdCHdFf+X8kNVxKUkhcyDoKfcNJa150v5MEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+}

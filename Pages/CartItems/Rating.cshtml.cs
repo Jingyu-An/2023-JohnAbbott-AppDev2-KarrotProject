@@ -39,13 +39,13 @@ namespace Karrot.Pages.CartItems
         public string SellerId { get; set; }
 
 
-        public void OnGet([FromQuery]int orderId, [FromQuery]string sellerId)
+        public void OnGet([FromQuery] int orderId, [FromQuery] string sellerId)
         {
             OrderId = orderId;
             SellerId = sellerId;
         }
 
-        public async Task<IActionResult> OnPostAsync([FromQuery]int orderId, [FromQuery]string sellerId)
+        public async Task<IActionResult> OnPostAsync([FromQuery] int orderId, [FromQuery] string sellerId)
         {
             var userName = User.Identity.Name;
             var user = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
@@ -60,11 +60,11 @@ namespace Karrot.Pages.CartItems
             rating.RatingCreated = DateTime.Now;
             rating.RatingValue = Input.Rating;
             rating.RatedSeller = seller;
-            
+
             context.Ratings.Add(rating);
 
             await context.SaveChangesAsync();
-            return RedirectToPage("OrderSummary",new { Id = orderId });
+            return RedirectToPage("OrderSummary", new { Id = orderId });
         }
     }
 }

@@ -14,6 +14,19 @@ namespace Karrot.Pages.CartItems
 {
     public class OrderSummary : PageModel
     {
+ public class RatingInputModel
+        {
+            [Required]
+            public string Comment { get; set; }
+            [Required]
+
+            [Range(1, 5)]
+            public int Rating { get; set; }
+        }
+
+                [BindProperty]
+        public RatingInputModel Input { get; set; }
+
         private readonly ILogger<OrderSummary> _logger;
         private readonly KarrotDbContext _context;
 
