@@ -75,8 +75,10 @@
         <h2 class="main-lists-title">What's popular right now</h2>
         <div class="well well-sm">
             <div id="products" class="row product-list-group">
+                @{ var count = 0;}
                 @foreach (var item in Model.Product)
                 {
+                    count++;
                     <div class="item  col-xs-4 col-md-5">
                         <div class="thumbnail">
                             <a asp-page="/Products/Details" asp-route-id="@item.Id" class="main-a">
@@ -91,11 +93,15 @@
                                     @Html.DisplayFor(modelItem => item.Address.AddressLine1) , @Html.DisplayFor(modelItem => item.Address.City)
                                 </p>
                                 <p class="group inner list-group-item-heading" style="font-size: 1rem">
-                                   $@Html.DisplayFor(modelItem => item.ProductPrice)
+                                    $@Html.DisplayFor(modelItem => item.ProductPrice)
                                 </p>
                             </div>
                         </div>
                     </div>
+                    if (count > 4)
+                    {
+                        break;
+                    }
                 }
             </div>
         </div>
