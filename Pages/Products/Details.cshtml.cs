@@ -16,10 +16,11 @@ namespace Karrot.Pages.Products
     public class DetailsModel : PageModel
     {
         private readonly KarrotDbContext _context;
-
-        public DetailsModel(KarrotDbContext context)
+        private ILogger<CreateModel> _logger;
+        public DetailsModel(KarrotDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
 
@@ -53,23 +54,14 @@ namespace Karrot.Pages.Products
             
             if (ratingSeller == null)
             {
-                ratingValue = 0;
+                ratingAvg = 0;
             }
-            else
-            {
-                ratingValue = ratingSeller.RatingValue;
-            }
-
-
+            
             Comments = await _context.Comments.Include("CommentUser").Include("CommentProduct").Where(c => c.CommentProduct.Id == Id).ToListAsync();
             Ratings = await _context.Ratings.Include("RatedSeller").Where(r => r.RatedSeller.Id == product.Owner.Id)
                 .ToListAsync();
 
-            if (Ratings == null)
-            {
-                ratingAvg = 0;
-            }
-            else
+            if (Ratings.Count>0)
             {
                 foreach (var sellerRate in Ratings)
                 {
