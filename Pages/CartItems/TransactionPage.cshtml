@@ -47,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.CartQuantity)
             </td>
             <td>
-                @((item.CartQuantity * item.CartItemProduct.ProductPrice).ToString("C"))
+                @((item.CartQuantity * item.CartItemProduct.ProductPrice).ToString("C", new CultureInfo("en-US")))
             </td>
             @{ Total = Total + (item.CartQuantity * item.CartItemProduct.ProductPrice); }
         </tr>
