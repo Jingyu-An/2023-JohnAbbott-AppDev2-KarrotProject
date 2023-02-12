@@ -317,3 +317,33 @@ Hyunju
 3. -
 
 ======================================================================================================================================================================
+
+Saturday, February 11, 2023:
+Daily Srum Meeting:
+1. What I have done / not done since last Scrum?
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+Patrick:
+1. Rating stars
+2. Plan until next scrum:
+	- troubleshooting
+	- 
+	- 
+	
+3. Nothing yet
+
+Jingyu
+1. Modify orders, Hosting website
+2. Plan until next scrum:
+	- troubleshooting
+	- 
+3. -
+
+Hyunju
+1. Chat and map UI
+2. Plan until next scrum:
+	- Troubleshoot
+3. -
+
+======================================================================================================================================================================
