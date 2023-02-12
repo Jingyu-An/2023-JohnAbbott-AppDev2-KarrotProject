@@ -6,8 +6,8 @@
 
 <head>
     @* hero slider api *@
-    <link rel="stylesheet" href="~/css/hero.css" />
-    <link rel="stylesheet" href="~/css/productList.css" />
+    <link rel="stylesheet" href="~/css/hero.css"/>
+    <link rel="stylesheet" href="~/css/productList.css"/>
 
 </head>
 <div class="text-center">
@@ -19,35 +19,36 @@
 <div id="body__container">
     <section class="cd-hero js-cd-hero js-cd-autoplay">
         <ul class="cd-hero__slider">
-            <li class="cd-hero__slide js-cd-slide cd-hero__slide--selected cd-hero__slide--from-right"
-                style="background-image:url(https://taliupexpress.com/storage/15401/1654786963681.jpg)">
-                <div class="cd-hero__content cd-hero__content--full-width">
-                    <h2>Gentle Lemur® Pet Bed</h2>
-                    <p>No More Discomfort for Them,<br> No More Messes for You..</p>
-
-                    <a href="https://www.tissybistro.com" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a>
-                </div> <!-- .cd-hero__content -->
-            </li>
+            <a href="https://www.tissybistro.com">
+                <li class="cd-hero__slide js-cd-slide cd-hero__slide--selected cd-hero__slide--from-right"
+                    style="background-image:url(https://taliupexpress.com/storage/15401/1654786963681.jpg)">
+                    <div class="cd-hero__content cd-hero__content--full-width">
+                        @* <h2>Gentle Lemur® Pet Bed</h2> *@
+                        @* <p>No More Discomfort for Them,<br> No More Messes for You..</p> *@
+                        @* <a href="https://www.tissybistro.com" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a> *@
+                    </div> <!-- .cd-hero__content -->
+                </li>
+            </a>
             <li class="cd-hero__slide js-cd-slide"
-                style="background-image:url( https://www.johnabbott.qc.ca/wp-content/uploads/2022/12/ContEd_Webslider-1140x400-1-1024x359.jpg)">
+                style="background-image:url(https://assets.ca.karrotmarket.com/static/15a31e3d98598b453765c67c5a810d50/3bf55/e56aa3b7-49b5-4f63-b9ec-3a3735887dfe_img_bg_parallax-min.avif)">
                 <div class="cd-hero__content cd-hero__content--full-width">
-                    <h5>What is Karrot?</h5><br />
+                    <h5>What is Karrot?</h5><br/>
                     <h2>A vibrant marketplace</h2>
                     <p>nurtured by your neighbours</p>
-                    <a href="https://www.johnabbott.qc.ca/" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a>
+                    <a href="https://https://ca.karrotmarket.com/" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a>
                 </div> <!-- .cd-hero__content -->
 
                 <div class="cd-hero__content cd-hero__content--half-width cd-hero__content--img">
                 </div> <!-- .cd-hero__content -->
             </li>
             <li class="cd-hero__slide js-cd-slide"
-                style="background-image:url(https://gentlelemur.speedgabia.com/mall/board_data/new_09.png)">
+                style="background-image:url(https://gentlelemur.speedgabia.com/handstanding/new_09.png)">
                 <div class="cd-hero__content cd-hero__content--half-width cd-hero__content--img">
                 </div> <!-- .cd-hero__content -->
                 <div class="cd-hero__content cd-hero__content--full-width">
                     @* <h2>Gentle Lemur® Pet Bed</h2> *@
                     @* <p>No More Discomfort for Them,<br> No More Messes for You..</p> *@
-                    @* <a href="www.gentlelemur.com" class="cd-hero__btn">Shop</a> *@
+                    <a href="https://www.gentlelemur.com" class="cd-hero__btn" style="margin-left: 550px">Shop</a>
                 </div> <!-- .cd-hero__content -->
             </li>
 
@@ -59,10 +60,10 @@
 
                 <ul>
                     <li class="cd-selected">
-                        <a href="#0">Intro</a>
+                        <a href="#0">taliupexpress</a>
                     </li>
                     <li>
-                        <a href="#0">JohnAbbott</a>
+                        <a href="#0">Karrot</a>
                     </li>
                     <li>
                         <a href="#0">Gentlelemur</a>
@@ -88,7 +89,7 @@
                     <div class="item  col-xs-4 col-md-5">
                         <div class="thumbnail">
                             <a asp-page="/Products/Details" asp-route-id="@item.Id" class="main-a">
-                                <img class="group list-group-image" src="@item.Image" />
+                                <img class="group list-group-image" src="@item.Image"/>
                             </a>
                             <div class="caption">
                                 <h4 class="group inner list-group-item-heading" style="font-size: 1.2rem">
@@ -97,7 +98,7 @@
 
                                 <p class="group inner list-group-item-heading" style="font-size: 1rem">
                                     @Html.DisplayFor(modelItem => item.Address.AddressLine1) , @Html.DisplayFor(modelItem =>
-                                item.Address.City)
+                                                                                                   item.Address.City)
                                 </p>
                                 <p class="group inner list-group-item-heading" style="font-size: 1rem">
                                     $@Html.DisplayFor(modelItem => item.ProductPrice)
