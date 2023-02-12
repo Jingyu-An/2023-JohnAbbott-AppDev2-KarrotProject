@@ -1,5 +1,5 @@
 @page
-@using Microsoft.AspNetCore.Razor.Language
+@using System.Globalization
 @model Karrot.Pages.CartItems.IndexModel
 
 @{
@@ -78,7 +78,7 @@
                 Total
             </dt>
             <dd class="col-2">
-                @(Total.ToString("C"))
+                @(Total.ToString("C", new CultureInfo("en-US")))
             </dd>
         </dl>
         <dl class="row justify-content-lg-center">
@@ -87,7 +87,7 @@
             </dt>
             <dd class="col-2">
                 @{ QST = Total * 0.09975; }
-                @(QST.ToString("C"))
+                @(QST.ToString("C", new CultureInfo("en-US")))
             </dd>
         </dl>
         <dl class="row justify-content-lg-center">
@@ -96,7 +96,7 @@
             </dt>
             <dd class="col-2">
                 @{ GST = Total * 0.05; }
-                @(GST.ToString("C"))
+                @(GST.ToString("C", new CultureInfo("en-US")))
             </dd>
         </dl>
         <dl class="row justify-content-lg-center">
@@ -104,7 +104,7 @@
                 Totla After Taxes
             </dt>
             <dd class="col-2">
-                @((Total + QST + GST).ToString("C"))
+                @((Total + QST + GST).ToString("C", new CultureInfo("en-US")))
             </dd>
         </dl>
         <dl class="row justify-content-lg-center">
