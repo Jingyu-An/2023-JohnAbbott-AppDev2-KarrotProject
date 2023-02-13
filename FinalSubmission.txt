@@ -1,0 +1,8 @@
+Team #4
+project name: Karrot
+team members: Patrick Loutfi, Jingyu An, Hyunju Roh
+
+git url: https://github.com/PatrickLTI/Karrot
+trello: https://trello.com/b/f3b4m5FK/karrot
+url to project: https://karrot.azurewebsites.net/
+
